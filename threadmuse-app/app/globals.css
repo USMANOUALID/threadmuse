@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * ThreadMuse design tokens.
+ * Every colour we use is declared here as an HSL triplet so Tailwind can
+ * interpolate it with arbitrary opacity (`bg-ink/40`).
+ * Numbers come straight from the design canvas — keep them in sync.
+ */
+@layer base {
+  :root {
+    /* Surfaces */
+    --bg:      32 50% 98%;   /* warm cream  #fdfaf6 */
+    --surface: 0  0%  100%;  /* pure white  #ffffff */
+    --sand:    34 47% 92%;   /* light beige #f5ede0 */
+    --warm:    30 67% 94%;   /* warmer fill #f9efe4 */
+
+    /* Text */
+    --ink:     20 14% 14%;   /* warm dark   #2a2420 */
+    --muted:   23 9%  44%;   /* warm grey   #7a6f66 */
+    --line:    20 14% 14%;   /* used at /08 — see border rules */
+
+    /* Accents (blush family) */
+    --accent:   12  72% 71%; /* peach  #e89280 */
+    --accent-2: 24  82% 80%; /* warm   #f6c5a3 */
+    --soft:     0   76% 81%; /* blush  #f4a8a8 */
+
+    /* Component vars (shadcn compat) */
+    --radius: 0.75rem;
+  }
+
+  *,
+  *::before,
+  *::after {
+    @apply border-line/10;
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  html, body {
+    @apply bg-bg text-ink;
+    min-height: 100%;
+  }
+
+  body {
+    @apply font-sans;
+    /* prevent layout shift from the rare horizontal scroll */
+    overflow-x: hidden;
+  }
+
+  /* Focus ring — visible on keyboard nav, suppressed for mouse. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ink));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: hsl(var(--accent) / 0.35);
+    color: hsl(var(--ink));
+  }
+
+  /* Hide horizontal scrollbars on chip rails (mobile). */
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Masonry helper — children use `break-inside-avoid`. */
+  .masonry-column {
+    column-fill: balance;
+  }
+}
+
+@layer components {
+  /* Soft "boutique" card. Used by PostCard, Sidebar widgets, SEO block. */
+  .tm-card {
+    @apply bg-surface rounded-lg shadow-soft;
+  }
+  .tm-card-inset {
+    @apply bg-surface border border-line/10 rounded-lg;
+  }
+  /* Section heading used on the homepage and category pages. */
+  .tm-section-title {
+    @apply font-display text-h2 font-semibold text-ink;
+  }
+  .tm-section-link {
+    @apply inline-flex items-center gap-1 text-[12.5px] font-semibold text-ink cursor-pointer;
+  }
+  /* Subtle dashed ad container — kept calm to protect UX. */
+  .tm-ad {
+    @apply rounded-lg bg-surface border border-dashed border-line/15 px-5 py-4;
+  }
+}
