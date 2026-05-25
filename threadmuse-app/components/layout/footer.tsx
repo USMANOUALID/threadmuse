@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { Sparkles, MessageCircle, type LucideIcon } from "lucide-react";
+import { MessageCircle, ShieldCheck, type LucideIcon } from "lucide-react";
 import { Logo } from "@/components/icons/logo";
-import { categories } from "@/lib/mock-data";
 import { siteConfig } from "@/config/site";
 
 interface FooterColumn {
@@ -11,36 +10,39 @@ interface FooterColumn {
 
 const columns: FooterColumn[] = [
   {
-    heading: "Discover",
+    heading: "Services",
     links: [
-      { label: "Explore",      href: "/explore" },
-      { label: "Trending",     href: "/trending" },
-      { label: "New uploads",  href: "/explore?sort=newest" },
-      { label: "Free designs", href: "/explore?price=free" },
-      { label: "Premium drops",href: "/explore?price=premium" },
+      { label: "IPTV subscriptions", href: "/pricing" },
+      { label: "Free trial", href: "/free-trial" },
+      { label: "Reseller program", href: "/reseller" },
+      { label: "Setup tutorial", href: "/tutorial" },
     ],
   },
   {
-    heading: "Categories",
-    links: categories.slice(0, 6).map((c) => ({ label: c.name, href: `/category/${c.slug}` })),
+    heading: "Devices",
+    links: [
+      { label: "Smart TV", href: "/tutorial#smart-tv" },
+      { label: "Fire Stick", href: "/tutorial#fire-stick" },
+      { label: "Android TV", href: "/tutorial#android" },
+      { label: "Apple devices", href: "/tutorial#apple" },
+    ],
   },
   {
-    heading: "Creators",
+    heading: "Support",
     links: [
-      { label: "Become a creator", href: "/upload" },
-      { label: "Upload guide",     href: "/guide" },
-      { label: "Seller handbook",  href: "/handbook" },
-      { label: "Affiliate program",href: "/affiliate" },
+      { label: "WhatsApp support", href: "https://wa.me/15551234567" },
+      { label: "Email support", href: "mailto:support@seusytv.com" },
+      { label: "Activation help", href: "/free-trial" },
+      { label: "Channel questions", href: "/pricing#faq" },
     ],
   },
   {
     heading: "Company",
     links: [
-      { label: "About",   href: "/about" },
-      { label: "Press kit", href: "/press" },
-      { label: "Privacy", href: "/privacy" },
-      { label: "Terms",   href: "/terms" },
-      { label: "Contact", href: "/contact" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Reseller terms", href: "/reseller#terms" },
+      { label: "Refund policy", href: "/pricing#faq" },
+      { label: "Contact", href: "mailto:support@seusytv.com" },
     ],
   },
 ];
@@ -49,7 +51,7 @@ const SocialPill = ({ Icon, label, href }: { Icon: LucideIcon; label: string; hr
   <Link
     href={href}
     aria-label={label}
-    className="flex size-9 items-center justify-center rounded-md bg-surface text-ink hover:bg-sand"
+    className="flex size-9 items-center justify-center rounded-md border border-line/10 bg-surface text-ink hover:bg-line/10"
   >
     <Icon className="size-4" />
   </Link>
@@ -57,7 +59,7 @@ const SocialPill = ({ Icon, label, href }: { Icon: LucideIcon; label: string; hr
 
 export function Footer() {
   return (
-    <footer className="mt-20 bg-warm text-ink">
+    <footer className="mt-20 border-t border-line/10 bg-bg text-ink">
       <div className="mx-auto max-w-[1440px] px-6 py-14 lg:px-8 xl:px-12">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
           <div>
@@ -68,12 +70,12 @@ export function Footer() {
               </span>
             </div>
             <p className="max-w-[280px] text-[13px] leading-relaxed text-muted">
-              A discovery feed for crochet patterns, wallpapers, printable art and beautiful
-              digital things.
+              Premium IPTV with fast activation, curated sports, movies, global channels,
+              reseller margins, and setup support for every screen.
             </p>
             <div className="mt-5 flex items-center gap-2">
-              <SocialPill Icon={Sparkles} label="Pinterest" href="https://pinterest.com" />
-              <SocialPill Icon={MessageCircle} label="Discord"  href="https://discord.gg" />
+              <SocialPill Icon={MessageCircle} label="WhatsApp" href="https://wa.me/15551234567" />
+              <SocialPill Icon={ShieldCheck} label="Guarantee" href="/pricing#faq" />
             </div>
           </div>
 
@@ -99,8 +101,8 @@ export function Footer() {
         </div>
 
         <div className="mt-9 flex flex-col items-start justify-between gap-2 border-t border-line/10 pt-7 text-[12px] text-muted sm:flex-row sm:items-center">
-          <span>© {new Date().getFullYear()} {siteConfig.name} — Made for makers.</span>
-          <span>Crafted in cream, blush and peach · v1.0</span>
+          <span>© {new Date().getFullYear()} {siteConfig.name} - Premium IPTV support.</span>
+          <span>4K ready streams - secure checkout - 7 day guarantee</span>
         </div>
       </div>
     </footer>

@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"], // not used by ThreadMuse — kept off; no dark mode per brand
+  darkMode: ["class"],
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -24,8 +24,6 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // ThreadMuse warm-pink "blush" palette. All consumed via CSS vars so we
-        // can re-theme without recompiling Tailwind.
         bg:       "hsl(var(--bg) / <alpha-value>)",
         surface:  "hsl(var(--surface) / <alpha-value>)",
         sand:     "hsl(var(--sand) / <alpha-value>)",
@@ -61,7 +59,6 @@ const config: Config = {
         display: ["var(--font-poppins)", "system-ui", "sans-serif"],
       },
       fontSize: {
-        // Tighter heading scale for boutique editorial feel.
         "display-lg": ["clamp(2.5rem, 5vw, 4.75rem)", { lineHeight: "1.02", letterSpacing: "-0.035em" }],
         "display":    ["clamp(2rem, 4vw, 3.5rem)",    { lineHeight: "1.05", letterSpacing: "-0.03em" }],
         "h1":         ["clamp(1.75rem, 3vw, 2.5rem)", { lineHeight: "1.1",  letterSpacing: "-0.025em" }],
@@ -78,9 +75,9 @@ const config: Config = {
         "2xl": "1.5rem",
       },
       boxShadow: {
-        soft:  "0 1px 2px hsl(30 18% 18% / 0.04), 0 6px 18px hsl(30 18% 18% / 0.06)",
-        lift:  "0 6px 18px hsl(30 18% 18% / 0.08), 0 24px 48px hsl(30 18% 18% / 0.10)",
-        cta:   "0 4px 14px hsl(30 18% 18% / 0.18)",
+        soft:  "0 1px 2px hsl(0 0% 0% / 0.16), 0 18px 44px hsl(0 0% 0% / 0.22)",
+        lift:  "0 16px 32px hsl(0 0% 0% / 0.28), 0 32px 80px hsl(358 86% 52% / 0.16)",
+        cta:   "0 10px 28px hsl(358 86% 52% / 0.35)",
         inner: "inset 0 0 0 1px hsl(var(--line))",
       },
       keyframes: {

@@ -15,8 +15,8 @@ function supabaseImageHost(): string | undefined {
 const remotePatterns: NonNullable<NextConfig["images"]>["remotePatterns"] = [];
 const sb = supabaseImageHost();
 if (sb) remotePatterns.push({ protocol: "https", hostname: sb });
-remotePatterns.push({ protocol: "https", hostname: "lh3.googleusercontent.com" }); // Google OAuth avatars
-remotePatterns.push({ protocol: "https", hostname: "images.unsplash.com" });        // demo fallbacks
+remotePatterns.push({ protocol: "https", hostname: "lh3.googleusercontent.com" });
+remotePatterns.push({ protocol: "https", hostname: "images.unsplash.com" });
 
 const config: NextConfig = {
   reactStrictMode: true,
@@ -39,6 +39,24 @@ const config: NextConfig = {
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
         ],
       },
+    ];
+  },
+  async redirects() {
+    return [
+      { source: "/explore", destination: "/pricing", permanent: false },
+      { source: "/trending", destination: "/", permanent: false },
+      { source: "/categories", destination: "/pricing", permanent: false },
+      { source: "/upload", destination: "/reseller", permanent: false },
+      { source: "/search", destination: "/pricing", permanent: false },
+      { source: "/signup", destination: "/free-trial", permanent: false },
+      { source: "/login", destination: "/free-trial", permanent: false },
+      { source: "/dashboard", destination: "/", permanent: false },
+      { source: "/settings/billing", destination: "/pricing", permanent: false },
+      { source: "/profile", destination: "/", permanent: false },
+      { source: "/category/:path*", destination: "/pricing", permanent: false },
+      { source: "/tag/:path*", destination: "/", permanent: false },
+      { source: "/post/:path*", destination: "/", permanent: false },
+      { source: "/profile/:path*", destination: "/", permanent: false },
     ];
   },
 };

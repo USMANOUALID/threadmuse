@@ -9,10 +9,10 @@ export default function NotFound() {
         404
       </span>
       <h1 className="mt-2 font-display text-h1 font-semibold text-ink">
-        Lost in the feed.
+        This stream is offline.
       </h1>
       <p className="mt-3 max-w-md text-[14px] leading-relaxed text-muted">
-        That design must have wandered off. Try the homepage or jump back to discovery.
+        The page you requested is not available. Return home or compare premium IPTV plans.
       </p>
       <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
         <Button asChild>
@@ -22,7 +22,7 @@ export default function NotFound() {
           </Link>
         </Button>
         <Button asChild variant="outline">
-          <Link href="/explore">Browse Explore</Link>
+          <Link href="/pricing">View pricing</Link>
         </Button>
       </div>
     </main>
