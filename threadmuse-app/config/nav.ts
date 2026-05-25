@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Bell, Compass, Heart, Home, MessageCircle, Plus, Search, TrendingUp, User } from "lucide-react";
+import { BadgePercent, BookOpen, CirclePlay, Home, Mail, Newspaper, PackageCheck, Rocket, Tv } from "lucide-react";
 
 export interface NavItem {
   key: string;
@@ -12,24 +12,25 @@ export interface NavItem {
 /** Primary top-bar nav (desktop). */
 export const desktopNav: NavItem[] = [
   { key: "home", label: "Home", href: "/" },
-  { key: "explore", label: "Explore", href: "/explore" },
-  { key: "trending", label: "Trending", href: "/trending" },
-  { key: "categories", label: "Categories", href: "/categories" },
+  { key: "pricing", label: "Pricing", href: "/pricing" },
+  { key: "trial", label: "Free trial", href: "/free-trial" },
+  { key: "reseller", label: "Reseller", href: "/reseller" },
+  { key: "tutorial", label: "Tutorial", href: "/tutorial" },
+  { key: "blog", label: "Guides", href: "/blog" },
 ];
 
 /** Bottom tab bar (mobile). The middle item is rendered as a floating FAB. */
 export const mobileNav: NavItem[] = [
-  { key: "home",    label: "Home",    href: "/",        icon: Home },
-  { key: "explore", label: "Explore", href: "/explore", icon: Search },
-  { key: "upload",  label: "",        href: "/upload",  icon: Plus },
-  { key: "saved",   label: "Saved",   href: "/saved",   icon: Heart },
-  { key: "profile", label: "Profile", href: "/profile", icon: User },
+  { key: "home", label: "Home", href: "/", icon: Home },
+  { key: "pricing", label: "Plans", href: "/pricing", icon: PackageCheck },
+  { key: "trial", label: "", href: "/free-trial", icon: Rocket },
+  { key: "reseller", label: "Reseller", href: "/reseller", icon: BadgePercent },
+  { key: "contact", label: "Contact", href: "/contact", icon: Mail },
 ];
 
 /** Top-right utility actions on desktop. */
 export const utilityNav: NavItem[] = [
-  { key: "notifications", label: "Notifications", href: "/notifications", icon: Bell },
-  { key: "messages", label: "Messages", href: "/messages", icon: MessageCircle },
+  { key: "contact", label: "Contact support", href: "/contact", icon: Mail },
 ];
 
-export { TrendingUp, Compass };
+export { BookOpen, CirclePlay, Newspaper, Tv };

@@ -10,6 +10,9 @@ build/
 
 # Production
 dist/
+!wordpress-export/
+!wordpress-export/dist/
+!wordpress-export/dist/*
 
 # Misc
 .DS_Store

@@ -5,27 +5,25 @@ import type { Metadata } from "next";
  * Anything user-facing should pull from here so a rebrand is a one-file change.
  */
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://threadmuse.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://seusytv.com";
 
 export const siteConfig = {
-  name: "ThreadMuse",
-  shortName: "TM",
-  tagline: "Discover beautiful digital designs.",
+  name: "SeusyTV",
+  shortName: "STV",
+  tagline: "Premium IPTV streaming for every screen.",
   description:
-    "ThreadMuse is a discovery feed for independent makers — crochet patterns, wallpapers, printable art, planners, embroidery PDFs, SVG files and more.",
+    "SeusyTV delivers premium IPTV subscriptions for Canada and the UK with 40,000+ live channels, 180,000+ movies and series, 24h trial access, reseller plans, tutorials, and priority support.",
   url: siteUrl,
   ogImage: `${siteUrl}/opengraph-image`,
-  twitter: "@threadmuse",
-  pinterest: "threadmuse",
-  email: "hello@threadmuse.app",
-  // Used in JSON-LD Organization markup (Phase 7).
-  legalName: "ThreadMuse Inc.",
+  twitter: "@seusytv",
+  pinterest: "seusytv",
+  email: "support@seusytv.com",
+  legalName: "SeusyTV",
   founded: 2026,
-  // Hard-coded so it survives Phase 2 + 3 swaps without breaking SEO numbers.
   stats: {
-    designs: "108k",
-    creators: "4,820",
-    monthlyViewers: "1.6M",
+    designs: "180k+",
+    creators: "40k+",
+    monthlyViewers: "24h",
   },
 } as const;
 
@@ -43,19 +41,20 @@ export const defaultMetadata: Metadata = {
   authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
   keywords: [
-    "crochet patterns",
-    "free crochet patterns",
-    "wallpapers",
-    "pink wallpapers",
-    "iPhone wallpapers",
-    "printable wall art",
-    "digital planners",
-    "embroidery PDF",
-    "knitting patterns",
-    "SVG bundle",
-    "sticker pack",
-    "AI wall art",
-    "Etsy digital downloads",
+    "IPTV subscription",
+    "best IPTV provider",
+    "best IPTV Canada",
+    "best IPTV UK",
+    "premium IPTV",
+    "IPTV free trial",
+    "IPTV reseller",
+    "4K IPTV",
+    "live TV streaming",
+    "sports IPTV",
+    "movies and series IPTV",
+    "Fire Stick IPTV",
+    "Smart TV IPTV",
+    "IPTV tutorial",
   ],
   openGraph: {
     type: "website",
@@ -80,6 +79,4 @@ export const defaultMetadata: Metadata = {
   },
   icons: { icon: "/favicon.ico", apple: "/apple-touch-icon.png" },
   manifest: "/site.webmanifest",
-  // Pinterest Rich Pins: claim domain via meta tag in Phase 7.
-  verification: { other: { "p:domain_verify": "TODO_PINTEREST_VERIFICATION" } },
 };

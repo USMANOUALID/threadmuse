@@ -1,0 +1,71 @@
+{
+  "version": "0.4",
+  "title": "SeusyTV Homepage Hero",
+  "type": "page",
+  "content": [
+    {
+      "id": "stvhero1",
+      "elType": "section",
+      "settings": {
+        "layout": "full_width",
+        "gap": "wide"
+      },
+      "elements": [
+        {
+          "id": "stvcol1",
+          "elType": "column",
+          "settings": {
+            "_column_size": 60
+          },
+          "elements": [
+            {
+              "id": "heading1",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Stream live TV, sports, movies, and series in premium 4K IPTV.",
+                "header_size": "h1"
+              }
+            },
+            {
+              "id": "text1",
+              "elType": "widget",
+              "widgetType": "text-editor",
+              "settings": {
+                "editor": "Fast activation, 40,000+ channels, 180,000+ VOD titles, and support for every screen."
+              }
+            },
+            {
+              "id": "button1",
+              "elType": "widget",
+              "widgetType": "button",
+              "settings": {
+                "text": "Start free trial",
+                "link": {
+                  "url": "/free-trial/"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "stvcol2",
+          "elType": "column",
+          "settings": {
+            "_column_size": 40
+          },
+          "elements": [
+            {
+              "id": "html1",
+              "elType": "widget",
+              "widgetType": "html",
+              "settings": {
+                "html": "<div class='stv-screen'><div class='stv-player'><h2>Match night without buffering.</h2><p>Premium IPTV live sports, movies and series.</p></div></div>"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

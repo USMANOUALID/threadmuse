@@ -1,0 +1,16 @@
+{
+  "SiteURL": "https://peru-hamster-515841.hostingersite.com",
+  "HomeURL": "https://peru-hamster-515841.hostingersite.com",
+  "Plugin": {
+    "Version": "7.99"
+  },
+  "WordPress": {
+    "Version": "6.6",
+    "Content": "wp-content"
+  },
+  "Export": {
+    "User": {
+      "Id": 1
+    }
+  }
+}

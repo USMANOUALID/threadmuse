@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageShell } from "@/components/layout/page-shell";
+import { MarketingShell } from "@/components/layout/marketing-shell";
 import { Button } from "@/components/ui/button";
 import { buildMetadata } from "@/config/seo";
 
@@ -24,7 +24,7 @@ export default async function AuthCodeErrorPage({
   const { reason, message } = await searchParams;
 
   return (
-    <PageShell showMobileSearch={false}>
+    <MarketingShell>
       <section className="bg-bg px-4 py-16 sm:px-6 lg:px-8 xl:px-12">
         <div className="mx-auto max-w-md rounded-2xl border border-line/10 bg-surface p-8 shadow-soft">
           <h1 className="font-display text-h2 font-semibold text-ink">
@@ -51,7 +51,7 @@ export default async function AuthCodeErrorPage({
 
           <div className="mt-6 flex gap-2">
             <Button asChild>
-              <Link href="/login">Try signing in again</Link>
+              <Link href="/free-trial">Request help</Link>
             </Button>
             <Button asChild variant="outline">
               <Link href="/">Go home</Link>
@@ -59,6 +59,6 @@ export default async function AuthCodeErrorPage({
           </div>
         </div>
       </section>
-    </PageShell>
+    </MarketingShell>
   );
 }

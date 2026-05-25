@@ -1,0 +1,42 @@
+{
+  "version": "0.4",
+  "title": "SeusyTV Pricing Section",
+  "type": "page",
+  "content": [
+    {
+      "id": "stvpricing",
+      "elType": "section",
+      "settings": {
+        "layout": "full_width"
+      },
+      "elements": [
+        {
+          "id": "pricingcol",
+          "elType": "column",
+          "settings": {
+            "_column_size": 100
+          },
+          "elements": [
+            {
+              "id": "pricingheading",
+              "elType": "widget",
+              "widgetType": "heading",
+              "settings": {
+                "title": "Premium IPTV plans with clear value.",
+                "header_size": "h2"
+              }
+            },
+            {
+              "id": "pricingshortcode",
+              "elType": "widget",
+              "widgetType": "shortcode",
+              "settings": {
+                "shortcode": "[seusytv_pricing_cards]"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

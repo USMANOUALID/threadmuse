@@ -1,87 +1,195 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageShell } from "@/components/layout/page-shell";
-import { PlanCard } from "@/components/billing/plan-card";
-import { getActivePlans, getMyCurrentPlan } from "@/lib/queries";
-import { getCurrentUser } from "@/lib/auth/get-session";
+import { CheckCircle2, HelpCircle, ShieldCheck, Sparkles, Star, Zap } from "lucide-react";
+import { MarketingShell } from "@/components/layout/marketing-shell";
+import { Button } from "@/components/ui/button";
 import { buildMetadata } from "@/config/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Pricing — free forever, with optional Pro",
+  title: "IPTV pricing Canada and UK - 4K live TV, movies and series",
   description:
-    "ThreadMuse is free for makers. Pro unlocks priority discovery, advanced analytics, and AI tagging.",
+    "Compare premium IPTV plans for Canada and UK viewers with 40,000+ channels, 180,000+ VOD titles, 24h trial, device support, and 4K streaming.",
   path: "/pricing",
+  keywords: ["IPTV pricing", "IPTV plans", "IPTV subscription price", "4K IPTV subscription"],
 });
 
-export const revalidate = 600;
+const plans = [
+  {
+    name: "1 Month",
+    price: "CAD $15",
+    badge: "Starter",
+    description: "A simple way to test the full premium line.",
+    highlight: false,
+  },
+  {
+    name: "3 Months",
+    price: "CAD $35",
+    badge: "Smart save",
+    description: "Lower monthly cost for steady viewing.",
+    highlight: false,
+  },
+  {
+    name: "6 Months",
+    price: "CAD $55",
+    badge: "Smart value",
+    description: "Better monthly value for steady viewing.",
+    highlight: false,
+  },
+  {
+    name: "12 Months",
+    price: "CAD $85",
+    badge: "Best value",
+    description: "Most popular annual plan for premium households.",
+    highlight: true,
+  },
+];
 
-/**
- * /pricing — public marketing surface for the paid plans. Reads `plans` from
- * the DB (RLS allows `is_active = true` for everyone), then renders tiles
- * with state-aware CTAs (current / upgrade / sign-up).
- */
-export default async function PricingPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ checkout?: string }>;
-}) {
-  const { checkout } = await searchParams;
-  const [plans, user, currentPlan] = await Promise.all([
-    getActivePlans(),
-    getCurrentUser(),
-    getMyCurrentPlan(),
-  ]);
+const included = [
+  "40,000+ worldwide live channels",
+  "180,000+ movies and series",
+  "4K, FHD, HD and SD quality",
+  "EPG guide where available",
+  "All major IPTV apps supported",
+  "Smart TV, Fire Stick, Android, iOS, MAG and PC",
+  "Fast activation after confirmation",
+  "Priority contact and email support",
+];
 
-  const cancelled = checkout === "cancelled";
+const faqs = [
+  {
+    question: "Which plan should I choose?",
+    answer:
+      "Choose 1 month if you are testing. Choose 12 months for the strongest balance of savings and flexibility, or 24 months for the lowest effective monthly cost.",
+  },
+  {
+    question: "Is there a refund policy?",
+    answer:
+      "Yes. The pricing experience now highlights a 7 day satisfaction guarantee so buyers feel safer before purchase.",
+  },
+  {
+    question: "Can I upgrade to more connections?",
+    answer:
+      "Yes. Standard plans include one active connection. Contact support for multi-room, family, or reseller packages.",
+  },
+  {
+    question: "Are all devices supported?",
+    answer:
+      "Yes. Smart TVs, Android boxes, Fire Stick, Apple devices, MAG, Kodi, VLC, and IPTV Smarters style apps are supported.",
+  },
+];
 
-  // We don't have Pro / Studio seeded yet in dev — the page still works,
-  // it'll just render the Free tile. Stripe seeding lives in scripts/.
+export default function PricingPage() {
   return (
-    <PageShell showMobileSearch={false}>
-      <section className="bg-bg px-4 py-12 sm:px-6 lg:px-8 xl:px-12">
-        <div className="mx-auto max-w-[1024px] text-center">
-          <h1 className="font-display text-display font-semibold tracking-tight text-ink">
-            Pricing built for makers.
+    <MarketingShell>
+      <section className="relative px-4 py-14 sm:px-6 lg:px-8 lg:py-20 xl:px-12">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_0%,hsl(var(--accent)/0.25),transparent_32%)]" />
+        <div className="mx-auto max-w-[1180px] text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.16em] text-accent">
+            <Sparkles className="size-3.5" />
+            Canada + UK IPTV pricing
+          </div>
+          <h1 className="mt-5 font-display text-display-lg font-semibold text-ink">
+            Pick a premium IPTV plan with confidence.
           </h1>
-          <p className="mx-auto mt-3 max-w-[640px] text-pretty text-[15px] leading-relaxed text-muted">
-            Free forever for new creators. Upgrade when your shop earns more than the
-            subscription does.
+          <p className="mx-auto mt-4 max-w-3xl text-[16px] leading-8 text-muted">
+            Clean plan cards, trial-first CTAs, and device trust cues help viewers
+            in Canada and the UK choose without the generic IPTV template feeling.
           </p>
         </div>
 
-        {cancelled && (
-          <div className="mx-auto mt-6 max-w-md rounded-md border border-line/10 bg-warm px-4 py-3 text-center text-[13px] text-ink">
-            Checkout cancelled. You can pick a plan whenever you're ready.
-          </div>
-        )}
-
-        <div className="mx-auto mt-10 grid max-w-[1024px] gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {plans.map((p, i) => {
-            const isCurrent = !!currentPlan && currentPlan.plan_id === p.id;
-            const variant: "current" | "upgrade" | "anon" = !user
-              ? "anon"
-              : isCurrent
-                ? "current"
-                : "upgrade";
-            return (
-              <PlanCard
-                key={p.id}
-                plan={p}
-                variant={variant}
-                highlight={i === 1}
-                signedIn={!!user}
-              />
-            );
-          })}
+        <div className="mx-auto mt-10 grid max-w-[1440px] gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {plans.map((plan) => (
+            <article
+              key={plan.name}
+              className={`relative flex flex-col rounded-3xl border p-6 shadow-soft ${
+                plan.highlight
+                  ? "border-accent bg-gradient-to-b from-accent/20 to-surface shadow-lift"
+                  : "border-line/10 bg-surface"
+              }`}
+            >
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="text-xl font-semibold text-ink">{plan.name}</h2>
+                <span className="rounded-full bg-accent/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-accent">
+                  {plan.badge}
+                </span>
+              </div>
+              <p className="mt-3 min-h-12 text-sm leading-6 text-muted">{plan.description}</p>
+              <div className="mt-6 font-display text-5xl font-semibold text-ink">{plan.price}</div>
+              <p className="mt-2 text-sm text-muted">One active connection included</p>
+              <ul className="mt-6 space-y-3 text-sm text-muted">
+                {included.slice(0, 5).map((feature) => (
+                  <li key={feature} className="flex gap-2">
+                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-accent" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button asChild className="mt-7 w-full" variant={plan.highlight ? "primary" : "outline"} pill>
+                <Link href="/free-trial">Start with this plan</Link>
+              </Button>
+            </article>
+          ))}
         </div>
-
-        <p className="mt-10 text-center text-[12px] text-muted">
-          Already a member?{" "}
-          <Link href="/settings/billing" className="underline-offset-4 hover:underline">
-            Manage your billing →
-          </Link>
-        </p>
       </section>
-    </PageShell>
+
+      <section className="px-4 py-14 sm:px-6 lg:px-8 xl:px-12">
+        <div className="mx-auto grid max-w-[1180px] gap-8 rounded-[2rem] border border-line/10 bg-surface p-6 lg:grid-cols-[0.9fr_1.1fr] lg:p-10">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">Every plan includes</p>
+            <h2 className="mt-3 font-display text-display font-semibold text-ink">
+              The complete premium IPTV experience.
+            </h2>
+            <p className="mt-4 text-[15px] leading-8 text-muted">
+              Everything is grouped around what buyers actually compare: channels,
+              VOD depth, device support, stream quality, activation speed, and safety.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {included.map((feature) => (
+              <div key={feature} className="flex items-start gap-3 rounded-2xl border border-line/10 bg-warm p-4">
+                <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-accent" />
+                <span className="text-sm font-medium text-ink">{feature}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 py-14 sm:px-6 lg:px-8 xl:px-12">
+        <div className="mx-auto grid max-w-[1180px] gap-4 md:grid-cols-3">
+          {[
+            { icon: ShieldCheck, title: "7 day guarantee", text: "A clear guarantee improves buyer trust and reduces checkout hesitation." },
+            { icon: Zap, title: "Fast activation", text: "Activation and device setup are positioned as part of the product value." },
+            { icon: Star, title: "Premium support", text: "Support is promoted as a trust asset, not hidden in a generic footer." },
+          ].map(({ icon: Icon, title, text }) => (
+            <div key={title} className="rounded-3xl border border-line/10 bg-surface p-6">
+              <Icon className="size-7 text-accent" />
+              <h3 className="mt-5 text-xl font-semibold text-ink">{title}</h3>
+              <p className="mt-3 text-sm leading-7 text-muted">{text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="faq" className="px-4 py-14 sm:px-6 lg:px-8 xl:px-12">
+        <div className="mx-auto max-w-[960px]">
+          <div className="text-center">
+            <HelpCircle className="mx-auto size-8 text-accent" />
+            <h2 className="mt-3 font-display text-display font-semibold text-ink">Pricing FAQ</h2>
+          </div>
+          <div className="mt-8 grid gap-4">
+            {faqs.map((faq) => (
+              <details key={faq.question} className="group rounded-2xl border border-line/10 bg-surface p-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-ink">
+                  {faq.question}
+                  <span className="text-accent group-open:rotate-45">+</span>
+                </summary>
+                <p className="mt-3 text-sm leading-7 text-muted">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    </MarketingShell>
   );
 }

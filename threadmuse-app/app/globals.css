@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /*
- * ThreadMuse design tokens.
+ * SeusyTV design tokens.
  * Every colour we use is declared here as an HSL triplet so Tailwind can
  * interpolate it with arbitrary opacity (`bg-ink/40`).
  * Numbers come straight from the design canvas — keep them in sync.
@@ -11,20 +11,20 @@
 @layer base {
   :root {
     /* Surfaces */
-    --bg:      32 50% 98%;   /* warm cream  #fdfaf6 */
-    --surface: 0  0%  100%;  /* pure white  #ffffff */
-    --sand:    34 47% 92%;   /* light beige #f5ede0 */
-    --warm:    30 67% 94%;   /* warmer fill #f9efe4 */
+    --bg:      225 45% 4%;   /* near black */
+    --surface: 224 36% 8%;   /* card black */
+    --sand:    0 86% 18%;    /* deep red */
+    --warm:    224 28% 12%;  /* elevated black */
 
     /* Text */
-    --ink:     20 14% 14%;   /* warm dark   #2a2420 */
-    --muted:   23 9%  44%;   /* warm grey   #7a6f66 */
-    --line:    20 14% 14%;   /* used at /08 — see border rules */
+    --ink:     0 0% 98%;     /* white */
+    --muted:   222 14% 66%;  /* cool grey */
+    --line:    0 0% 100%;    /* used at low opacity */
 
-    /* Accents (blush family) */
-    --accent:   12  72% 71%; /* peach  #e89280 */
-    --accent-2: 24  82% 80%; /* warm   #f6c5a3 */
-    --soft:     0   76% 81%; /* blush  #f4a8a8 */
+    /* Accents */
+    --accent:   358 86% 52%; /* premium red */
+    --accent-2: 18  94% 58%; /* ember */
+    --soft:     0   94% 66%; /* glow red */
 
     /* Component vars (shadcn compat) */
     --radius: 0.75rem;
@@ -63,7 +63,7 @@
   }
 
   ::selection {
-    background: hsl(var(--accent) / 0.35);
+    background: hsl(var(--accent) / 0.45);
     color: hsl(var(--ink));
   }
 
@@ -82,22 +82,19 @@
 }
 
 @layer components {
-  /* Soft "boutique" card. Used by PostCard, Sidebar widgets, SEO block. */
   .tm-card {
-    @apply bg-surface rounded-lg shadow-soft;
+    @apply rounded-lg border border-line/10 bg-surface shadow-soft;
   }
   .tm-card-inset {
-    @apply bg-surface border border-line/10 rounded-lg;
+    @apply rounded-lg border border-line/10 bg-warm;
   }
-  /* Section heading used on the homepage and category pages. */
   .tm-section-title {
     @apply font-display text-h2 font-semibold text-ink;
   }
   .tm-section-link {
     @apply inline-flex items-center gap-1 text-[12.5px] font-semibold text-ink cursor-pointer;
   }
-  /* Subtle dashed ad container — kept calm to protect UX. */
   .tm-ad {
-    @apply rounded-lg bg-surface border border-dashed border-line/15 px-5 py-4;
+    @apply rounded-lg border border-dashed border-line/15 bg-surface px-5 py-4;
   }
 }
