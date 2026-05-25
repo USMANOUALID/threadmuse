@@ -1,0 +1,16 @@
+{
+  "SiteURL": "https://seusytv.local",
+  "HomeURL": "https://seusytv.local",
+  "Plugin": {
+    "Version": "7.99"
+  },
+  "WordPress": {
+    "Version": "6.6",
+    "Content": "wp-content"
+  },
+  "Export": {
+    "User": {
+      "Id": 1
+    }
+  }
+}
