@@ -8,7 +8,6 @@ import { Logo } from "@/components/icons/logo";
 import type { NavbarCurrentUser } from "@/components/layout/navbar";
 import { cn } from "@/lib/utils";
 
-/**
 export function MobileTopBar({ currentUser: _currentUser }: { currentUser?: NavbarCurrentUser | null }) {
   return (
     <header className="sticky top-0 z-40 flex items-center gap-3 border-b border-line/10 bg-bg/95 px-4 py-3 backdrop-blur-xl md:hidden">
