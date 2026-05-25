@@ -27,6 +27,7 @@ img { max-width: 100%; height: auto; }
 .stv-menu a { display: block; padding: 10px 12px; border-radius: 12px; color: var(--stv-muted); font-size: 14px; font-weight: 700; }
 .stv-menu a:hover, .current-menu-item a { color: var(--stv-text); background: rgba(255, 255, 255, 0.08); }
 .stv-header-cta, .stv-button, .wp-block-button__link { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 20px; border: 0; border-radius: 999px; background: linear-gradient(135deg, var(--stv-red), var(--stv-ember)); color: #fff !important; font-size: 14px; font-weight: 800; box-shadow: 0 12px 30px rgba(225, 29, 46, 0.35); cursor: pointer; }
+.stv-floating-cta { position: fixed; right: 20px; bottom: 22px; z-index: 80; display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 20px; border-radius: 999px; border: 1px solid rgba(225, 29, 46, .5); background: linear-gradient(135deg, var(--stv-red), var(--stv-ember)); color: #fff; font-size: 14px; font-weight: 900; box-shadow: 0 18px 42px rgba(225, 29, 46, .42); }
 .stv-button-outline { background: rgba(255, 255, 255, 0.04); border: 1px solid var(--stv-line); box-shadow: none; }
 .stv-menu-toggle { display: none; margin-left: auto; border: 1px solid var(--stv-line); background: var(--stv-surface); color: var(--stv-text); border-radius: 12px; padding: 10px 12px; font-weight: 800; }
 .stv-page-shell { min-height: 60vh; overflow: hidden; }
@@ -101,4 +102,40 @@ img { max-width: 100%; height: auto; }
   .stv-button { width: 100%; }
   .stv-player { min-height: 280px; }
   .stv-footer-bottom { flex-direction: column; }
+  .stv-floating-cta { left: 12px; right: 12px; bottom: 12px; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stv-card,
+  .stv-plan,
+  .stv-button,
+  .stv-menu a,
+  .stv-feature-pill {
+    transition: transform .22s ease, border-color .22s ease, background .22s ease, filter .22s ease;
+  }
+  .stv-card:hover,
+  .stv-plan:hover,
+  .stv-feature-pill:hover {
+    transform: translateY(-4px);
+    border-color: rgba(225, 29, 46, .45);
+  }
+  .stv-button:hover,
+  .wp-block-button__link:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+  }
+  .stv-hero h1,
+  .stv-hero .stv-lead,
+  .stv-hero .stv-actions,
+  .stv-screen {
+    animation: stvFadeUp .55s cubic-bezier(.2, .75, .25, 1) both;
+  }
+  .stv-hero .stv-lead { animation-delay: .08s; }
+  .stv-hero .stv-actions { animation-delay: .14s; }
+  .stv-screen { animation-delay: .18s; }
+}
+
+@keyframes stvFadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
 }

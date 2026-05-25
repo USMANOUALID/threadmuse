@@ -1,6 +1,6 @@
 # SeusyTV WordPress Import Package
 
-This folder contains a ready-to-import WordPress version of the premium IPTV website.
+This folder contains a ready-to-import WordPress version of the premium Canada + UK IPTV website.
 
 ## Included artifacts
 

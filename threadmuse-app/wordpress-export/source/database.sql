@@ -7,7 +7,7 @@ CREATE TABLE `SERVMASK_PREFIX_options` (`option_id` bigint(20) unsigned NOT NULL
 INSERT INTO `SERVMASK_PREFIX_options` VALUES (1,'siteurl','https://peru-hamster-515841.hostingersite.com','yes');
 INSERT INTO `SERVMASK_PREFIX_options` VALUES (2,'home','https://peru-hamster-515841.hostingersite.com','yes');
 INSERT INTO `SERVMASK_PREFIX_options` VALUES (3,'blogname','SeusyTV','yes');
-INSERT INTO `SERVMASK_PREFIX_options` VALUES (4,'blogdescription','Premium IPTV streaming for every screen.','yes');
+INSERT INTO `SERVMASK_PREFIX_options` VALUES (4,'blogdescription','Premium IPTV streaming for Canada and UK viewers.','yes');
 INSERT INTO `SERVMASK_PREFIX_options` VALUES (5,'users_can_register','0','yes');
 INSERT INTO `SERVMASK_PREFIX_options` VALUES (6,'admin_email','support@seusytv.com','yes');
 INSERT INTO `SERVMASK_PREFIX_options` VALUES (7,'start_of_week','1','yes');
@@ -32,6 +32,10 @@ INSERT INTO `SERVMASK_PREFIX_options` VALUES (25,'seusytv_site_imported','0','ye
 INSERT INTO `SERVMASK_PREFIX_options` VALUES (26,'seusytv_primary_cta_url','/free-trial/','yes');
 INSERT INTO `SERVMASK_PREFIX_options` VALUES (27,'seusytv_support_email','support@seusytv.com','yes');
 INSERT INTO `SERVMASK_PREFIX_options` VALUES (28,'seusytv_guarantee','7 day satisfaction guarantee','yes');
+INSERT INTO `SERVMASK_PREFIX_options` VALUES (29,'seusytv_plan_1_price','CAD $15','yes');
+INSERT INTO `SERVMASK_PREFIX_options` VALUES (30,'seusytv_plan_3_price','CAD $35','yes');
+INSERT INTO `SERVMASK_PREFIX_options` VALUES (31,'seusytv_plan_6_price','CAD $55','yes');
+INSERT INTO `SERVMASK_PREFIX_options` VALUES (32,'seusytv_plan_12_price','CAD $85','yes');
 DROP TABLE IF EXISTS `SERVMASK_PREFIX_users`;
 CREATE TABLE `SERVMASK_PREFIX_users` (`ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT, `user_login` varchar(60) NOT NULL DEFAULT '', `user_pass` varchar(255) NOT NULL DEFAULT '', `user_nicename` varchar(50) NOT NULL DEFAULT '', `user_email` varchar(100) NOT NULL DEFAULT '', `user_url` varchar(100) NOT NULL DEFAULT '', `user_registered` datetime NOT NULL DEFAULT '0000-00-00 00:00:00', `user_activation_key` varchar(255) NOT NULL DEFAULT '', `user_status` int(11) NOT NULL DEFAULT 0, `display_name` varchar(250) NOT NULL DEFAULT '', PRIMARY KEY (`ID`), KEY `user_login_key` (`user_login`), KEY `user_nicename` (`user_nicename`), KEY `user_email` (`user_email`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 INSERT INTO `SERVMASK_PREFIX_users` VALUES (1,'seusytv-owner','$P$BstvfinalOnZTahFyvzN2.qsazUqh5/','seusytv-owner','support@seusytv.com','https://peru-hamster-515841.hostingersite.com','2026-05-25 18:00:12','',0,'SeusyTV Owner');

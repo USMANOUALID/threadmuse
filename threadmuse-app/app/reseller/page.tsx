@@ -8,7 +8,7 @@ import { buildMetadata } from "@/config/seo";
 export const metadata: Metadata = buildMetadata({
   title: "IPTV reseller program - premium panel, margins and support",
   description:
-    "Start an IPTV reseller business with SeusyTV. Get a premium IPTV panel, scalable credits, setup help, reseller support, and high-converting sales assets.",
+    "Start a premium IPTV reseller business for Canada, the UK, and worldwide customers with scalable credits, setup help, reseller support, and conversion-focused sales assets.",
   path: "/reseller",
   keywords: ["IPTV reseller", "IPTV reseller panel", "sell IPTV", "IPTV business"],
 });
@@ -37,9 +37,9 @@ const benefits = [
 ];
 
 const tiers = [
-  { name: "Launch", credits: "25 credits", bestFor: "Testing the market", highlight: false },
-  { name: "Growth", credits: "100 credits", bestFor: "Small agencies", highlight: true },
-  { name: "Scale", credits: "Custom credits", bestFor: "High-volume sellers", highlight: false },
+  { name: "Starter", credits: "120 credits", bestFor: "Launch in Canada or the UK", highlight: false },
+  { name: "Professional", credits: "240 credits", bestFor: "Small agencies and local sellers", highlight: true },
+  { name: "Enterprise", credits: "720+ credits", bestFor: "High-volume sellers", highlight: false },
 ];
 
 const process = [
@@ -61,17 +61,16 @@ export default function ResellerPage() {
               IPTV reseller program
             </div>
             <h1 className="mt-5 font-display text-display-lg font-semibold text-ink">
-              Launch a premium IPTV reseller business with stronger trust and cleaner sales flow.
+              Launch a premium IPTV reseller business for Canada, the UK, and worldwide buyers.
             </h1>
             <p className="mt-5 max-w-3xl text-[16px] leading-8 text-muted">
-              The reseller page now speaks directly to entrepreneurs: margin potential,
-              panel access, activation workflow, and support. It removes vague copy and
-              creates a clearer application path.
+              A cleaner reseller funnel with credit packages, panel access, customer-ready
+              sales positioning, activation support, and stronger trust for serious sellers.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" pill>
-                <Link href="https://wa.me/15551234567" target="_blank" rel="noreferrer">
-                  Apply on WhatsApp
+                <Link href="/contact">
+                  Apply for reseller access
                   <ArrowRight className="size-4" />
                 </Link>
               </Button>
@@ -143,7 +142,7 @@ export default function ResellerPage() {
                 ))}
               </ul>
               <Button asChild className="mt-7 w-full" variant={tier.highlight ? "primary" : "outline"} pill>
-                <Link href="https://wa.me/15551234567" target="_blank" rel="noreferrer">Request tier details</Link>
+                <Link href="/contact">Request tier details</Link>
               </Button>
             </article>
           ))}
@@ -181,7 +180,7 @@ export default function ResellerPage() {
             Contact support with your country, expected volume, and target devices to receive reseller details.
           </p>
           <Button asChild className="mt-7" size="lg" pill>
-            <Link href="https://wa.me/15551234567" target="_blank" rel="noreferrer">Start reseller application</Link>
+            <Link href="/contact">Start reseller application</Link>
           </Button>
         </div>
       </section>

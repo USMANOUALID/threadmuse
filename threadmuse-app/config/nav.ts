@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { BadgePercent, BookOpen, CirclePlay, Home, MessageCircle, PackageCheck, Rocket, Tv } from "lucide-react";
+import { BadgePercent, BookOpen, CirclePlay, Home, Mail, Newspaper, PackageCheck, Rocket, Tv } from "lucide-react";
 
 export interface NavItem {
   key: string;
@@ -16,6 +16,7 @@ export const desktopNav: NavItem[] = [
   { key: "trial", label: "Free trial", href: "/free-trial" },
   { key: "reseller", label: "Reseller", href: "/reseller" },
   { key: "tutorial", label: "Tutorial", href: "/tutorial" },
+  { key: "blog", label: "Guides", href: "/blog" },
 ];
 
 /** Bottom tab bar (mobile). The middle item is rendered as a floating FAB. */
@@ -24,12 +25,12 @@ export const mobileNav: NavItem[] = [
   { key: "pricing", label: "Plans", href: "/pricing", icon: PackageCheck },
   { key: "trial", label: "", href: "/free-trial", icon: Rocket },
   { key: "reseller", label: "Reseller", href: "/reseller", icon: BadgePercent },
-  { key: "tutorial", label: "Guide", href: "/tutorial", icon: BookOpen },
+  { key: "contact", label: "Contact", href: "/contact", icon: Mail },
 ];
 
 /** Top-right utility actions on desktop. */
 export const utilityNav: NavItem[] = [
-  { key: "whatsapp", label: "WhatsApp support", href: "https://wa.me/15551234567", icon: MessageCircle, external: true },
+  { key: "contact", label: "Contact support", href: "/contact", icon: Mail },
 ];
 
-export { CirclePlay, Tv };
+export { BookOpen, CirclePlay, Newspaper, Tv };

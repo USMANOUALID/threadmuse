@@ -49,10 +49,10 @@ function seusytv_customize_register( $wp_customize ) {
         'support_email' => array( 'Support email', 'support@seusytv.com', 'email' ),
         'hero_badge' => array( 'Hero badge', 'Premium IPTV subscription provider', 'text' ),
         'guarantee' => array( 'Guarantee line', '7 day satisfaction guarantee', 'text' ),
-        'plan_1_price' => array( '1 Month price', 'EUR 9', 'text' ),
-        'plan_6_price' => array( '6 Months price', 'EUR 29', 'text' ),
-        'plan_12_price' => array( '12 Months price', 'EUR 45', 'text' ),
-        'plan_24_price' => array( '24 Months price', 'EUR 65', 'text' ),
+        'plan_1_price' => array( '1 Month price', 'CAD $15', 'text' ),
+        'plan_3_price' => array( '3 Months price', 'CAD $35', 'text' ),
+        'plan_6_price' => array( '6 Months price', 'CAD $55', 'text' ),
+        'plan_12_price' => array( '12 Months price', 'CAD $85', 'text' ),
     );
 
     foreach ( $settings as $key => $data ) {
@@ -95,16 +95,17 @@ function seusytv_support_url() {
 
 function seusytv_meta_description() {
     if ( is_front_page() ) {
-        return 'Premium IPTV subscription provider with 17,000+ live channels, 100,000+ movies and series, 4K streaming, free trial, reseller plans, and setup support.';
+        return 'Premium IPTV subscription provider for Canada and the UK with 40,000+ live channels, 180,000+ movies and series, 4K streaming, 24h free trial, reseller plans, and setup support.';
     }
 
     $descriptions = array(
-        'pricing'    => 'Compare SeusyTV IPTV pricing plans for 1 month, 6 months, 12 months, and 24 months with premium channels, VOD, support, and guarantee messaging.',
-        'free-trial' => 'Request an IPTV free trial to test live channels, sports, VOD, stream quality, and device compatibility before choosing a SeusyTV plan.',
-        'reseller'   => 'Start a premium IPTV reseller business with scalable credits, panel guidance, activation support, and conversion-ready sales positioning.',
+        'pricing'    => 'Compare SeusyTV IPTV pricing plans for Canada and UK viewers with premium channels, VOD, support, 24h trial access, and guarantee messaging.',
+        'free-trial' => 'Request a 24h IPTV free trial to test live channels, sports, VOD, stream quality, and device compatibility before choosing a SeusyTV plan.',
+        'reseller'   => 'Start a premium IPTV reseller business for Canada, the UK, and worldwide buyers with scalable credits, panel guidance, activation support, and conversion-ready sales positioning.',
         'tutorial'   => 'Follow IPTV setup tutorials for Smart TV, Fire Stick, Android, iOS, Apple TV, IPTV Smarters style apps, M3U, and Xtream Codes.',
         'contact'    => 'Contact SeusyTV for IPTV activation help, free trial requests, reseller details, device setup support, and billing questions.',
         'faq'        => 'Get answers to common IPTV subscription questions about activation, internet speed, devices, refunds, support, and multi-connection plans.',
+        'blog'       => 'Read premium IPTV guides for Canada and UK viewers covering Fire Stick setup, Smart TV apps, free trial testing, pricing, and stream quality.',
     );
 
     $slug = is_page() ? get_post_field( 'post_name', get_queried_object_id() ) : '';
@@ -142,20 +143,21 @@ add_action( 'wp_head', 'seusytv_output_seo_meta', 1 );
 
 function seusytv_plan_data() {
     return array(
-        array( 'name' => '1 Month', 'price' => seusytv_get_setting( 'plan_1_price', 'EUR 9' ), 'badge' => 'Starter', 'note' => 'Best for testing', 'highlight' => false ),
-        array( 'name' => '6 Months', 'price' => seusytv_get_setting( 'plan_6_price', 'EUR 29' ), 'badge' => 'Smart save', 'note' => 'Save more on steady viewing', 'highlight' => false ),
-        array( 'name' => '12 Months', 'price' => seusytv_get_setting( 'plan_12_price', 'EUR 45' ), 'badge' => 'Most popular', 'note' => 'Best balance of value and support', 'highlight' => true ),
-        array( 'name' => '24 Months', 'price' => seusytv_get_setting( 'plan_24_price', 'EUR 65' ), 'badge' => 'Best value', 'note' => 'Maximum long-term savings', 'highlight' => false ),
+        array( 'name' => '1 Month', 'price' => seusytv_get_setting( 'plan_1_price', 'CAD $15' ), 'badge' => 'Starter', 'note' => 'Best for testing', 'highlight' => false ),
+        array( 'name' => '3 Months', 'price' => seusytv_get_setting( 'plan_3_price', 'CAD $35' ), 'badge' => 'Flexible', 'note' => 'Seasonal viewing', 'highlight' => false ),
+        array( 'name' => '6 Months', 'price' => seusytv_get_setting( 'plan_6_price', 'CAD $55' ), 'badge' => 'Smart value', 'note' => 'Better monthly value', 'highlight' => false ),
+        array( 'name' => '12 Months', 'price' => seusytv_get_setting( 'plan_12_price', 'CAD $85' ), 'badge' => 'Best value', 'note' => 'Most popular annual plan', 'highlight' => true ),
     );
 }
 
 function seusytv_features() {
     return array(
-        '17,000+ worldwide live channels',
-        '100,000+ movies and series',
+        '40,000+ worldwide live channels',
+        '180,000+ movies and series',
         '4K, FHD, HD and SD quality',
         'All major IPTV apps supported',
         'Smart TV, Fire Stick, Android, iOS, MAG and PC',
+        'Canada and UK channel categories',
         'Fast activation after confirmation',
         'Priority email and contact page support',
         'EPG guide where available',
@@ -176,8 +178,8 @@ function seusytv_shortcode_pricing_cards() {
                 <strong><?php echo esc_html( $plan['price'] ); ?></strong>
                 <ul>
                     <li>1 active connection</li>
-                    <li>17,000+ live channels</li>
-                    <li>100,000+ VOD titles</li>
+                    <li>40,000+ live channels</li>
+                    <li>180,000+ VOD titles</li>
                     <li>4K/FHD/HD/SD quality</li>
                     <li>All devices supported</li>
                 </ul>

@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 import { buildMetadata } from "@/config/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "IPTV pricing plans - 4K live TV, movies and series",
+  title: "IPTV pricing Canada and UK - 4K live TV, movies and series",
   description:
-    "Compare SeusyTV IPTV plans for 1 month, 6 months, 12 months, and 24 months with 17,000+ channels, 100,000+ VOD titles, support, and a 7 day guarantee.",
+    "Compare premium IPTV plans for Canada and UK viewers with 40,000+ channels, 180,000+ VOD titles, 24h trial, device support, and 4K streaming.",
   path: "/pricing",
   keywords: ["IPTV pricing", "IPTV plans", "IPTV subscription price", "4K IPTV subscription"],
 });
@@ -16,43 +16,43 @@ export const metadata: Metadata = buildMetadata({
 const plans = [
   {
     name: "1 Month",
-    price: "EUR 9",
+    price: "CAD $15",
     badge: "Starter",
     description: "A simple way to test the full premium line.",
     highlight: false,
   },
   {
-    name: "6 Months",
-    price: "EUR 29",
+    name: "3 Months",
+    price: "CAD $35",
     badge: "Smart save",
     description: "Lower monthly cost for steady viewing.",
     highlight: false,
   },
   {
-    name: "12 Months",
-    price: "EUR 45",
-    badge: "Most popular",
-    description: "Best balance of value, stability, and support.",
-    highlight: true,
+    name: "6 Months",
+    price: "CAD $55",
+    badge: "Smart value",
+    description: "Better monthly value for steady viewing.",
+    highlight: false,
   },
   {
-    name: "24 Months",
-    price: "EUR 65",
+    name: "12 Months",
+    price: "CAD $85",
     badge: "Best value",
-    description: "Maximum savings for long-term viewers.",
-    highlight: false,
+    description: "Most popular annual plan for premium households.",
+    highlight: true,
   },
 ];
 
 const included = [
-  "17,000+ worldwide live channels",
-  "100,000+ movies and series",
+  "40,000+ worldwide live channels",
+  "180,000+ movies and series",
   "4K, FHD, HD and SD quality",
   "EPG guide where available",
   "All major IPTV apps supported",
   "Smart TV, Fire Stick, Android, iOS, MAG and PC",
   "Fast activation after confirmation",
-  "24/7 WhatsApp and email support",
+  "Priority contact and email support",
 ];
 
 const faqs = [
@@ -86,14 +86,14 @@ export default function PricingPage() {
         <div className="mx-auto max-w-[1180px] text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.16em] text-accent">
             <Sparkles className="size-3.5" />
-            Transparent IPTV pricing
+            Canada + UK IPTV pricing
           </div>
           <h1 className="mt-5 font-display text-display-lg font-semibold text-ink">
             Pick a premium IPTV plan with confidence.
           </h1>
           <p className="mx-auto mt-4 max-w-3xl text-[16px] leading-8 text-muted">
-            Clear pricing, visible guarantees, device support, and strong plan comparison
-            remove purchase anxiety and make the offer feel premium.
+            Clean plan cards, trial-first CTAs, and device trust cues help viewers
+            in Canada and the UK choose without the generic IPTV template feeling.
           </p>
         </div>
 
@@ -140,8 +140,8 @@ export default function PricingPage() {
               The complete premium IPTV experience.
             </h2>
             <p className="mt-4 text-[15px] leading-8 text-muted">
-              The previous section listed features without hierarchy. This version groups value,
-              quality, device support, and buyer safety in a more scannable format.
+              Everything is grouped around what buyers actually compare: channels,
+              VOD depth, device support, stream quality, activation speed, and safety.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">

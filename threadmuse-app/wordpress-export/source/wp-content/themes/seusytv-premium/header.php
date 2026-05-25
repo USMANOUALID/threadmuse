@@ -40,6 +40,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 </header>
 <?php
 function seusytv_fallback_menu() {
-    echo '<ul class="stv-menu"><li><a href="' . esc_url( home_url( '/' ) ) . '">Home</a></li><li><a href="' . esc_url( home_url( '/pricing/' ) ) . '">Pricing</a></li><li><a href="' . esc_url( home_url( '/free-trial/' ) ) . '">Free Trial</a></li><li><a href="' . esc_url( home_url( '/reseller/' ) ) . '">Reseller</a></li><li><a href="' . esc_url( home_url( '/tutorial/' ) ) . '">Tutorial</a></li><li><a href="' . esc_url( home_url( '/contact/' ) ) . '">Contact</a></li></ul>';
+    echo '<ul class="stv-menu"><li><a href="' . esc_url( home_url( '/' ) ) . '">Home</a></li><li><a href="' . esc_url( home_url( '/pricing/' ) ) . '">Pricing</a></li><li><a href="' . esc_url( home_url( '/free-trial/' ) ) . '">Free Trial</a></li><li><a href="' . esc_url( home_url( '/reseller/' ) ) . '">Reseller</a></li><li><a href="' . esc_url( home_url( '/tutorial/' ) ) . '">Tutorial</a></li><li><a href="' . esc_url( home_url( '/blog/' ) ) . '">Guides</a></li><li><a href="' . esc_url( home_url( '/contact/' ) ) . '">Contact</a></li></ul>';
 }
 ?>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MessageCircle } from "lucide-react";
+import { Mail } from "lucide-react";
 import { mobileNav } from "@/config/nav";
 import { Logo } from "@/components/icons/logo";
 import type { NavbarCurrentUser } from "@/components/layout/navbar";
@@ -19,13 +19,11 @@ export function MobileTopBar({ currentUser: _currentUser }: { currentUser?: Navb
       </Link>
       <div className="ml-auto flex items-center gap-1">
         <Link
-          href="https://wa.me/15551234567"
-          aria-label="WhatsApp support"
-          target="_blank"
-          rel="noreferrer"
+          href="/contact"
+          aria-label="Contact support"
           className="flex size-9 items-center justify-center rounded-md text-ink hover:bg-line/10"
         >
-          <MessageCircle className="size-5" />
+          <Mail className="size-5" />
         </Link>
         <Link
           href="/free-trial"
@@ -45,7 +43,7 @@ export function MobileSearchTrigger() {
         href="/pricing"
         className="flex h-10 items-center justify-center rounded-full border border-line/10 bg-surface px-4 text-[13px] font-semibold text-ink"
       >
-        <span>View IPTV plans from EUR 9</span>
+        <span>View IPTV plans from CAD $15</span>
       </Link>
     </div>
   );

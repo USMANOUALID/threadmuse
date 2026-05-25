@@ -51,7 +51,7 @@ export default function OpenGraphImage() {
             {siteConfig.tagline}
           </div>
           <div style={{ fontSize: 28, color: "#cbd5e1", maxWidth: 900 }}>
-            17,000+ channels, 100,000+ VOD titles, 4K streaming, and premium IPTV support.
+            40,000+ channels, 180,000+ VOD titles, 4K streaming, and premium IPTV support.
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MessageCircle, ShieldCheck, type LucideIcon } from "lucide-react";
+import { Mail, ShieldCheck, type LucideIcon } from "lucide-react";
 import { Logo } from "@/components/icons/logo";
 import { siteConfig } from "@/config/site";
 
@@ -16,6 +16,7 @@ const columns: FooterColumn[] = [
       { label: "Free trial", href: "/free-trial" },
       { label: "Reseller program", href: "/reseller" },
       { label: "Setup tutorial", href: "/tutorial" },
+      { label: "IPTV guides", href: "/blog" },
     ],
   },
   {
@@ -30,7 +31,7 @@ const columns: FooterColumn[] = [
   {
     heading: "Support",
     links: [
-      { label: "WhatsApp support", href: "https://wa.me/15551234567" },
+      { label: "Contact support", href: "/contact" },
       { label: "Email support", href: "mailto:support@seusytv.com" },
       { label: "Activation help", href: "/free-trial" },
       { label: "Channel questions", href: "/pricing#faq" },
@@ -42,7 +43,7 @@ const columns: FooterColumn[] = [
       { label: "Pricing", href: "/pricing" },
       { label: "Reseller terms", href: "/reseller#terms" },
       { label: "Refund policy", href: "/pricing#faq" },
-      { label: "Contact", href: "mailto:support@seusytv.com" },
+      { label: "Contact", href: "/contact" },
     ],
   },
 ];
@@ -70,11 +71,11 @@ export function Footer() {
               </span>
             </div>
             <p className="max-w-[280px] text-[13px] leading-relaxed text-muted">
-              Premium IPTV with fast activation, curated sports, movies, global channels,
-              reseller margins, and setup support for every screen.
+              Premium IPTV for Canada and the UK with fast activation, curated sports,
+              movies, global channels, reseller margins, and setup support for every screen.
             </p>
             <div className="mt-5 flex items-center gap-2">
-              <SocialPill Icon={MessageCircle} label="WhatsApp" href="https://wa.me/15551234567" />
+              <SocialPill Icon={Mail} label="Contact" href="/contact" />
               <SocialPill Icon={ShieldCheck} label="Guarantee" href="/pricing#faq" />
             </div>
           </div>

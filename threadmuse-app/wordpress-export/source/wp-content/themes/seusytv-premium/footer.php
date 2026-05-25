@@ -3,11 +3,12 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 ?>
+<a class="stv-floating-cta" href="<?php echo seusytv_primary_cta_url(); ?>">Start 24h free trial</a>
 <footer class="stv-site-footer">
     <div class="stv-container stv-footer-grid">
         <div>
             <a class="stv-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>"><span class="stv-logo-mark">STV</span><span><?php bloginfo( 'name' ); ?></span></a>
-            <p>Premium IPTV with fast activation, 17,000+ live channels, 100,000+ VOD titles, reseller support, and setup guidance for every screen.</p>
+            <p>Premium IPTV for Canada and the UK with fast activation, 40,000+ live channels, 180,000+ VOD titles, reseller support, and setup guidance for every screen.</p>
         </div>
         <div>
             <h2>Services</h2>
@@ -15,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <a href="<?php echo esc_url( home_url( '/free-trial/' ) ); ?>">Free trial</a>
             <a href="<?php echo esc_url( home_url( '/reseller/' ) ); ?>">Reseller program</a>
             <a href="<?php echo esc_url( home_url( '/tutorial/' ) ); ?>">Setup tutorial</a>
+            <a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">IPTV guides</a>
         </div>
         <div>
             <h2>Support</h2>

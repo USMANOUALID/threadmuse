@@ -8,7 +8,7 @@ import { buildMetadata } from "@/config/seo";
 export const metadata: Metadata = buildMetadata({
   title: "IPTV setup tutorial - Smart TV, Fire Stick, Android and iOS",
   description:
-    "Follow SeusyTV IPTV setup tutorials for Smart TV, Fire Stick, Android TV, Apple devices, MAG, VLC, and IPTV Smarters style apps.",
+    "Follow premium IPTV setup tutorials for Canada and UK viewers using Smart TV, Fire Stick, Android TV, Apple devices, MAG, VLC, M3U, and IPTV Smarters style apps.",
   path: "/tutorial",
   keywords: ["IPTV tutorial", "IPTV setup", "IPTV Smarters setup", "Fire Stick IPTV", "Smart TV IPTV"],
 });
@@ -62,16 +62,15 @@ export default function TutorialPage() {
             Set up IPTV on Smart TV, Fire Stick, Android, iOS, and more.
           </h1>
           <p className="mx-auto mt-4 max-w-3xl text-[16px] leading-8 text-muted">
-            A tutorial page improves SEO, reduces support tickets, and makes the service
-            feel more professional. These device-specific guides replace vague setup copy
-            with practical instructions.
+              Device guides improve SEO, reduce support tickets, and help Canada and UK
+              viewers start streaming faster on the devices they already own.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <Button asChild size="lg" pill>
               <Link href="/free-trial">Request credentials</Link>
             </Button>
             <Button asChild size="lg" variant="outline" pill>
-              <Link href="https://wa.me/15551234567" target="_blank" rel="noreferrer">Ask support</Link>
+              <Link href="/contact">Ask support</Link>
             </Button>
           </div>
         </div>

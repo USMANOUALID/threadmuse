@@ -8,7 +8,7 @@ import { buildMetadata } from "@/config/seo";
 export const metadata: Metadata = buildMetadata({
   title: "IPTV free trial - test channels, VOD and device setup",
   description:
-    "Request a SeusyTV IPTV free trial to test live channels, VOD, 4K quality, device compatibility, and setup support before choosing a plan.",
+    "Request a 24h SeusyTV IPTV free trial for Canada and UK viewers to test live channels, VOD, sports, 4K quality, and device compatibility.",
   path: "/free-trial",
   keywords: ["IPTV free trial", "free IPTV trial", "test IPTV", "IPTV trial Smart TV"],
 });
@@ -22,7 +22,7 @@ const trialSteps = [
 
 const formFields = [
   "Name",
-  "WhatsApp number",
+  "Best contact email",
   "Email address",
   "Device type",
   "Country",
@@ -38,15 +38,14 @@ export default function FreeTrialPage() {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.16em] text-accent">
               <Sparkles className="size-3.5" />
-              Risk-free IPTV test
+              24h premium IPTV test
             </div>
             <h1 className="mt-5 font-display text-display-lg font-semibold text-ink">
-              Request an IPTV free trial before you buy.
+              Test the Canada + UK IPTV experience before you buy.
             </h1>
             <p className="mt-5 max-w-2xl text-[16px] leading-8 text-muted">
-              A strong free trial page reduces risk and answers the main buyer question:
-              will this work on my device and internet connection? The new flow makes
-              trial requests feel guided, premium, and support-backed.
+              Trial-first conversion removes risk. Test your device, internet speed,
+              sports channels, VOD quality, and setup flow before choosing a paid plan.
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
               {[
@@ -65,10 +64,10 @@ export default function FreeTrialPage() {
           <div className="rounded-[2rem] border border-line/10 bg-surface p-6 shadow-lift">
             <div className="rounded-3xl border border-accent/20 bg-accent/10 p-5">
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">Trial request</p>
-              <h2 className="mt-2 text-2xl font-semibold text-ink">Send your details on WhatsApp</h2>
+              <h2 className="mt-2 text-2xl font-semibold text-ink">Request guided trial activation</h2>
               <p className="mt-3 text-sm leading-7 text-muted">
-                For production, connect this panel to your CRM or checkout system. For now,
-                every CTA routes to a clear support channel instead of a broken button.
+                This polished intake panel collects the exact details needed for a clean
+                trial: device, market, contact email, and preferred plan.
               </p>
             </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -79,8 +78,8 @@ export default function FreeTrialPage() {
               ))}
             </div>
             <Button asChild className="mt-6 w-full" size="lg" pill>
-              <Link href="https://wa.me/15551234567" target="_blank" rel="noreferrer">
-                Request trial on WhatsApp
+              <Link href="/contact">
+                Request trial access
                 <ArrowRight className="size-4" />
               </Link>
             </Button>
@@ -147,7 +146,7 @@ export default function FreeTrialPage() {
           </p>
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
             <Button asChild size="lg" pill>
-              <Link href="https://wa.me/15551234567" target="_blank" rel="noreferrer">Request trial</Link>
+              <Link href="/contact">Request trial</Link>
             </Button>
             <Button asChild size="lg" variant="outline" pill>
               <Link href="/pricing">See pricing</Link>

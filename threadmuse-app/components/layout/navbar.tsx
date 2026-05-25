@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MessageCircle } from "lucide-react";
+import { Mail } from "lucide-react";
 import { desktopNav } from "@/config/nav";
 import { Wordmark } from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
@@ -58,9 +58,9 @@ export function Navbar({ currentUser: _currentUser }: { currentUser?: NavbarCurr
               Start free trial
             </Link>
           </Button>
-          <Button asChild variant="outline" size="icon" aria-label="WhatsApp support">
-            <Link href="https://wa.me/15551234567" target="_blank" rel="noreferrer">
-              <MessageCircle className="size-4" />
+          <Button asChild variant="outline" size="icon" aria-label="Contact support">
+            <Link href="/contact">
+              <Mail className="size-4" />
             </Link>
           </Button>
         </div>
@@ -69,4 +69,4 @@ export function Navbar({ currentUser: _currentUser }: { currentUser?: NavbarCurr
   );
 }
 
-export { MessageCircle };
+export { Mail };

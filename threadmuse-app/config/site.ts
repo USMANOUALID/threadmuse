@@ -12,7 +12,7 @@ export const siteConfig = {
   shortName: "STV",
   tagline: "Premium IPTV streaming for every screen.",
   description:
-    "SeusyTV delivers premium IPTV subscriptions with 17,000+ live channels, 100,000+ movies and series, fast activation, reseller plans, tutorials, and 24/7 support.",
+    "SeusyTV delivers premium IPTV subscriptions for Canada and the UK with 40,000+ live channels, 180,000+ movies and series, 24h trial access, reseller plans, tutorials, and priority support.",
   url: siteUrl,
   ogImage: `${siteUrl}/opengraph-image`,
   twitter: "@seusytv",
@@ -21,9 +21,9 @@ export const siteConfig = {
   legalName: "SeusyTV",
   founded: 2026,
   stats: {
-    designs: "100k+",
-    creators: "17k+",
-    monthlyViewers: "24/7",
+    designs: "180k+",
+    creators: "40k+",
+    monthlyViewers: "24h",
   },
 } as const;
 
@@ -43,6 +43,8 @@ export const defaultMetadata: Metadata = {
   keywords: [
     "IPTV subscription",
     "best IPTV provider",
+    "best IPTV Canada",
+    "best IPTV UK",
     "premium IPTV",
     "IPTV free trial",
     "IPTV reseller",
