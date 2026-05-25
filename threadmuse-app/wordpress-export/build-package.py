@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import os, time, zlib, shutil, subprocess
+import os, time, zlib, shutil, zipfile
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / 'source'
 DIST = ROOT / 'dist'
@@ -46,7 +46,23 @@ def build_zips():
     shutil.make_archive(str(DIST / 'seusytv-premium-theme'), 'zip', theme_dir.parent, theme_dir.name)
     shutil.make_archive(str(DIST / 'seusytv-site-importer-plugin'), 'zip', plugin_dir.parent, plugin_dir.name)
 
+def build_download_bundle():
+    target = DIST / 'seusytv-premium-wordpress-complete.zip'
+    with zipfile.ZipFile(target, 'w', compression=zipfile.ZIP_DEFLATED) as bundle:
+        for artifact in [
+            DIST / 'seusytv-premium.wpress',
+            DIST / 'seusytv-premium-theme.zip',
+            DIST / 'seusytv-site-importer-plugin.zip',
+            ROOT / 'README.md',
+        ]:
+            bundle.write(artifact, artifact.name if artifact.parent == DIST else 'README.md')
+        for template in sorted((ROOT / 'elementor-templates').glob('*.json')):
+            bundle.write(template, f'elementor-templates/{template.name}')
+    return target
+
 if __name__ == '__main__':
     build_zips()
     wpress = build_wpress()
+    bundle = build_download_bundle()
     print(wpress)
+    print(bundle)

@@ -44,7 +44,8 @@ function seusytv_customize_register( $wp_customize ) {
     );
 
     $settings = array(
-        'whatsapp_url' => array( 'WhatsApp URL', 'https://wa.me/15551234567', 'url' ),
+        'primary_cta_url' => array( 'Primary CTA URL', '/free-trial/', 'url' ),
+        'support_url' => array( 'Support URL', '/contact/', 'url' ),
         'support_email' => array( 'Support email', 'support@seusytv.com', 'email' ),
         'hero_badge' => array( 'Hero badge', 'Premium IPTV subscription provider', 'text' ),
         'guarantee' => array( 'Guarantee line', '7 day satisfaction guarantee', 'text' ),
@@ -85,8 +86,59 @@ function seusytv_sanitize_customizer_setting( $value ) {
 }
 
 function seusytv_primary_cta_url() {
-    return esc_url( seusytv_get_setting( 'whatsapp_url', 'https://wa.me/15551234567' ) );
+    return esc_url( seusytv_get_setting( 'primary_cta_url', '/free-trial/' ) );
 }
+
+function seusytv_support_url() {
+    return esc_url( seusytv_get_setting( 'support_url', '/contact/' ) );
+}
+
+function seusytv_meta_description() {
+    if ( is_front_page() ) {
+        return 'Premium IPTV subscription provider with 17,000+ live channels, 100,000+ movies and series, 4K streaming, free trial, reseller plans, and setup support.';
+    }
+
+    $descriptions = array(
+        'pricing'    => 'Compare SeusyTV IPTV pricing plans for 1 month, 6 months, 12 months, and 24 months with premium channels, VOD, support, and guarantee messaging.',
+        'free-trial' => 'Request an IPTV free trial to test live channels, sports, VOD, stream quality, and device compatibility before choosing a SeusyTV plan.',
+        'reseller'   => 'Start a premium IPTV reseller business with scalable credits, panel guidance, activation support, and conversion-ready sales positioning.',
+        'tutorial'   => 'Follow IPTV setup tutorials for Smart TV, Fire Stick, Android, iOS, Apple TV, IPTV Smarters style apps, M3U, and Xtream Codes.',
+        'contact'    => 'Contact SeusyTV for IPTV activation help, free trial requests, reseller details, device setup support, and billing questions.',
+        'faq'        => 'Get answers to common IPTV subscription questions about activation, internet speed, devices, refunds, support, and multi-connection plans.',
+    );
+
+    $slug = is_page() ? get_post_field( 'post_name', get_queried_object_id() ) : '';
+    return $descriptions[ $slug ] ?? get_bloginfo( 'description' );
+}
+
+function seusytv_output_seo_meta() {
+    if ( is_admin() ) {
+        return;
+    }
+
+    $description = seusytv_meta_description();
+    $canonical   = is_singular() ? get_permalink() : home_url( add_query_arg( array(), $GLOBALS['wp']->request ?? '' ) );
+    $title       = wp_get_document_title();
+    ?>
+    <meta name="description" content="<?php echo esc_attr( $description ); ?>">
+    <link rel="canonical" href="<?php echo esc_url( $canonical ); ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<?php echo esc_attr( $title ); ?>">
+    <meta property="og:description" content="<?php echo esc_attr( $description ); ?>">
+    <meta property="og:url" content="<?php echo esc_url( $canonical ); ?>">
+    <meta property="og:site_name" content="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json"><?php echo wp_json_encode( array(
+        '@context'    => 'https://schema.org',
+        '@type'       => 'Organization',
+        'name'        => get_bloginfo( 'name' ),
+        'url'         => home_url( '/' ),
+        'email'       => seusytv_get_setting( 'support_email', 'support@seusytv.com' ),
+        'description' => get_bloginfo( 'description' ),
+    ) ); ?></script>
+    <?php
+}
+add_action( 'wp_head', 'seusytv_output_seo_meta', 1 );
 
 function seusytv_plan_data() {
     return array(
@@ -105,7 +157,7 @@ function seusytv_features() {
         'All major IPTV apps supported',
         'Smart TV, Fire Stick, Android, iOS, MAG and PC',
         'Fast activation after confirmation',
-        '24/7 WhatsApp and email support',
+        'Priority email and contact page support',
         'EPG guide where available',
     );
 }
@@ -182,7 +234,7 @@ function seusytv_shortcode_contact_cards() {
     ob_start();
     ?>
     <div class="stv-contact-grid">
-        <a class="stv-card" href="<?php echo seusytv_primary_cta_url(); ?>"><span>WhatsApp</span><strong>Instant support</strong><p>Trial requests, reseller questions, and activation help.</p></a>
+        <a class="stv-card" href="<?php echo seusytv_support_url(); ?>"><span>Contact</span><strong>Support request</strong><p>Trial requests, reseller questions, and activation help.</p></a>
         <a class="stv-card" href="mailto:<?php echo esc_attr( $email ); ?>"><span>Email</span><strong><?php echo esc_html( $email ); ?></strong><p>Send device details, order questions, and support requests.</p></a>
         <div class="stv-card"><span>Guarantee</span><strong><?php echo esc_html( seusytv_get_setting( 'guarantee', '7 day satisfaction guarantee' ) ); ?></strong><p>Clear buyer protection improves conversion confidence.</p></div>
     </div>

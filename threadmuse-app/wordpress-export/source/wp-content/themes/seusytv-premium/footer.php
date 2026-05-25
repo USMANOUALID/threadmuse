@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
         <div>
             <h2>Support</h2>
-            <a href="<?php echo seusytv_primary_cta_url(); ?>">WhatsApp support</a>
+            <a href="<?php echo seusytv_support_url(); ?>">Support request</a>
             <a href="mailto:<?php echo esc_attr( seusytv_get_setting( 'support_email', 'support@seusytv.com' ) ); ?>">Email support</a>
             <a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>">FAQ</a>
             <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contact</a>
