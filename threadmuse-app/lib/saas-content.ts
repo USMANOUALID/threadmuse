@@ -90,6 +90,7 @@ export const pricingPlans = [
     description: "For founders and boutique teams launching a premium SaaS presence.",
     features: ["Editable website CMS", "Contact and newsletter storage", "Basic analytics", "1 admin seat"],
     cta: "Start Launch",
+    featured: false,
   },
   {
     name: "Scale",
@@ -107,6 +108,7 @@ export const pricingPlans = [
     description: "For organizations with bespoke data, security, and operating-model requirements.",
     features: ["Custom Supabase architecture", "SAML-ready admin access", "Dedicated success", "Quarterly growth reviews"],
     cta: "Talk to sales",
+    featured: false,
   },
 ] as const;
 

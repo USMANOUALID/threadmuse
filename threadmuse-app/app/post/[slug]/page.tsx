@@ -10,7 +10,7 @@ import { PostSidebar } from "@/components/post/post-sidebar";
 import { PostMobileCta } from "@/components/post/mobile-cta";
 import { RelatedPosts } from "@/components/post/related-posts";
 import { CommentsSection } from "@/components/post/comments-section";
-import { getCategoryBySlug, getPostBySlug, getRelatedPosts, getPosts } from "@/lib/queries";
+import { getCategoryBySlug, getPostBySlug, getRelatedPosts } from "@/lib/queries";
 import { buildMetadata } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { hashSeed } from "@/lib/utils";
@@ -20,9 +20,9 @@ export const revalidate = 300;
 // Pre-render the 20 known posts at build time. Phase 3 lifts this from
 // `posts` to a Supabase listing.
 export async function generateStaticParams() {
-  const posts = await getPosts({ limit: 100 });
-  return posts.map((p) => ({ slug: p.slug }));
+  return [];
 }
+
 
 export async function generateMetadata({
   params,

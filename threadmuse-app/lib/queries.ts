@@ -193,10 +193,11 @@ export async function getRelatedPosts(post: Post, limit = 8): Promise<Post[]> {
       .neq("id", post.id)
       .order("views", { ascending: false })
       .limit(limit);
-    for (const row of sharedTag ?? []) {
+    const sharedRows = (sharedTag ?? []) as unknown as PostWithJoins[];
+    for (const row of sharedRows) {
       if (out.length >= limit || seen.has(row.id)) continue;
       if (!row.creator) continue;
-      out.push(rowToPost(row as PostWithJoins));
+      out.push(rowToPost(row));
       seen.add(row.id);
     }
   }

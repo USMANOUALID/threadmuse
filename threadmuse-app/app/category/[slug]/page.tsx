@@ -10,11 +10,7 @@ import { MasonryFeed } from "@/components/feed/masonry-feed";
 import { AdSlot } from "@/components/home/ad-slot";
 import { RelatedSearches } from "@/components/search/related-searches";
 import { CategoryIcon } from "@/components/icons/category-icon";
-import {
-  getAllCategorySlugs,
-  getCategoryBySlug,
-  getPosts,
-} from "@/lib/queries";
+import { getCategoryBySlug, getPosts } from "@/lib/queries";
 import { buildMetadata } from "@/config/seo";
 import { formatCount } from "@/lib/format";
 
@@ -22,8 +18,9 @@ import { formatCount } from "@/lib/format";
 export const revalidate = 600;
 
 export async function generateStaticParams() {
-  return getAllCategorySlugs();
+  return [];
 }
+
 
 export async function generateMetadata({
   params,

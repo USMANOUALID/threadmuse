@@ -47,6 +47,7 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "profiles_id_fkey";
+            isOneToOne: true;
             columns: ["id"];
             referencedRelation: "users";
             referencedColumns: ["id"];
@@ -119,8 +120,8 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["posts"]["Insert"]>;
         Relationships: [
-          { foreignKeyName: "posts_user_id_fkey"; columns: ["user_id"]; referencedRelation: "profiles"; referencedColumns: ["id"] },
-          { foreignKeyName: "posts_category_fkey"; columns: ["category"]; referencedRelation: "categories"; referencedColumns: ["slug"] },
+          { foreignKeyName: "posts_user_id_fkey"; isOneToOne: false; columns: ["user_id"]; referencedRelation: "profiles"; referencedColumns: ["id"] },
+          { foreignKeyName: "posts_category_fkey"; isOneToOne: false; columns: ["category"]; referencedRelation: "categories"; referencedColumns: ["slug"] },
         ];
       };
 
@@ -129,8 +130,8 @@ export interface Database {
         Insert: { post_id: string; tag_slug: string };
         Update: never;
         Relationships: [
-          { foreignKeyName: "post_tags_post_id_fkey"; columns: ["post_id"]; referencedRelation: "posts"; referencedColumns: ["id"] },
-          { foreignKeyName: "post_tags_tag_slug_fkey"; columns: ["tag_slug"]; referencedRelation: "tags"; referencedColumns: ["slug"] },
+          { foreignKeyName: "post_tags_post_id_fkey"; isOneToOne: false; columns: ["post_id"]; referencedRelation: "posts"; referencedColumns: ["id"] },
+          { foreignKeyName: "post_tags_tag_slug_fkey"; isOneToOne: false; columns: ["tag_slug"]; referencedRelation: "tags"; referencedColumns: ["slug"] },
         ];
       };
 
@@ -268,7 +269,7 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["customers"]["Insert"]>;
         Relationships: [
-          { foreignKeyName: "customers_user_id_fkey"; columns: ["user_id"]; referencedRelation: "profiles"; referencedColumns: ["id"] },
+          { foreignKeyName: "customers_user_id_fkey"; isOneToOne: true; columns: ["user_id"]; referencedRelation: "profiles"; referencedColumns: ["id"] },
         ];
       };
 
@@ -309,8 +310,8 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["subscriptions"]["Insert"]>;
         Relationships: [
-          { foreignKeyName: "subscriptions_user_id_fkey"; columns: ["user_id"]; referencedRelation: "profiles"; referencedColumns: ["id"] },
-          { foreignKeyName: "subscriptions_plan_id_fkey"; columns: ["plan_id"]; referencedRelation: "plans"; referencedColumns: ["id"] },
+          { foreignKeyName: "subscriptions_user_id_fkey"; isOneToOne: false; columns: ["user_id"]; referencedRelation: "profiles"; referencedColumns: ["id"] },
+          { foreignKeyName: "subscriptions_plan_id_fkey"; isOneToOne: false; columns: ["plan_id"]; referencedRelation: "plans"; referencedColumns: ["id"] },
         ];
       };
 

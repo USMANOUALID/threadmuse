@@ -14,9 +14,9 @@ import { formatCount } from "@/lib/format";
 export const revalidate = 600;
 
 export async function generateStaticParams() {
-  const tags = await getAllTags();
-  return tags.map((t) => ({ slug: slugify(t) }));
+  return [];
 }
+
 
 async function resolveTag(slug: string) {
   // Tag slugs are stored slugified — find the original by re-slugifying.
