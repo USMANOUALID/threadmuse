@@ -25,6 +25,8 @@ export interface Database {
           cover_url: string | null;
           is_verified: boolean;
           is_admin: boolean;
+          role: "member" | "editor" | "admin" | "owner";
+          last_seen_at: string | null;
           followers_count: number;
           following_count: number;
           uploads_count: number;
@@ -42,11 +44,17 @@ export interface Database {
           website?: string | null;
           avatar_url?: string | null;
           cover_url?: string | null;
+          role?: "member" | "editor" | "admin" | "owner";
+          last_seen_at?: string | null;
+          deleted_at?: string | null;
+          is_admin?: boolean;
+          is_verified?: boolean;
         };
         Update: Partial<Database["public"]["Tables"]["profiles"]["Insert"]>;
         Relationships: [
           {
             foreignKeyName: "profiles_id_fkey";
+            isOneToOne: true;
             columns: ["id"];
             referencedRelation: "users";
             referencedColumns: ["id"];
@@ -119,8 +127,8 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["posts"]["Insert"]>;
         Relationships: [
-          { foreignKeyName: "posts_user_id_fkey"; columns: ["user_id"]; referencedRelation: "profiles"; referencedColumns: ["id"] },
-          { foreignKeyName: "posts_category_fkey"; columns: ["category"]; referencedRelation: "categories"; referencedColumns: ["slug"] },
+          { foreignKeyName: "posts_user_id_fkey"; isOneToOne: false; columns: ["user_id"]; referencedRelation: "profiles"; referencedColumns: ["id"] },
+          { foreignKeyName: "posts_category_fkey"; isOneToOne: false; columns: ["category"]; referencedRelation: "categories"; referencedColumns: ["slug"] },
         ];
       };
 
@@ -129,8 +137,8 @@ export interface Database {
         Insert: { post_id: string; tag_slug: string };
         Update: never;
         Relationships: [
-          { foreignKeyName: "post_tags_post_id_fkey"; columns: ["post_id"]; referencedRelation: "posts"; referencedColumns: ["id"] },
-          { foreignKeyName: "post_tags_tag_slug_fkey"; columns: ["tag_slug"]; referencedRelation: "tags"; referencedColumns: ["slug"] },
+          { foreignKeyName: "post_tags_post_id_fkey"; isOneToOne: false; columns: ["post_id"]; referencedRelation: "posts"; referencedColumns: ["id"] },
+          { foreignKeyName: "post_tags_tag_slug_fkey"; isOneToOne: false; columns: ["tag_slug"]; referencedRelation: "tags"; referencedColumns: ["slug"] },
         ];
       };
 
@@ -268,7 +276,7 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["customers"]["Insert"]>;
         Relationships: [
-          { foreignKeyName: "customers_user_id_fkey"; columns: ["user_id"]; referencedRelation: "profiles"; referencedColumns: ["id"] },
+          { foreignKeyName: "customers_user_id_fkey"; isOneToOne: true; columns: ["user_id"]; referencedRelation: "profiles"; referencedColumns: ["id"] },
         ];
       };
 
@@ -309,9 +317,181 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["subscriptions"]["Insert"]>;
         Relationships: [
-          { foreignKeyName: "subscriptions_user_id_fkey"; columns: ["user_id"]; referencedRelation: "profiles"; referencedColumns: ["id"] },
-          { foreignKeyName: "subscriptions_plan_id_fkey"; columns: ["plan_id"]; referencedRelation: "plans"; referencedColumns: ["id"] },
+          { foreignKeyName: "subscriptions_user_id_fkey"; isOneToOne: false; columns: ["user_id"]; referencedRelation: "profiles"; referencedColumns: ["id"] },
+          { foreignKeyName: "subscriptions_plan_id_fkey"; isOneToOne: false; columns: ["plan_id"]; referencedRelation: "plans"; referencedColumns: ["id"] },
         ];
+      };
+
+
+      admin_roles: {
+        Row: { user_id: string; role: "owner" | "admin" | "editor"; created_at: string; created_by: string | null };
+        Insert: { user_id: string; role: "owner" | "admin" | "editor"; created_by?: string | null };
+        Update: Partial<Database["public"]["Tables"]["admin_roles"]["Insert"]>;
+        Relationships: [];
+      };
+
+      site_settings: {
+        Row: { key: string; value: Json; updated_at: string; updated_by: string | null };
+        Insert: { key: string; value?: Json; updated_by?: string | null };
+        Update: Partial<Database["public"]["Tables"]["site_settings"]["Insert"]>;
+        Relationships: [];
+      };
+
+      seo_settings: {
+        Row: { path: string; title: string; description: string; canonical_url: string | null; og_image_url: string | null; noindex: boolean; structured_data: Json; updated_at: string; updated_by: string | null };
+        Insert: { path: string; title: string; description: string; canonical_url?: string | null; og_image_url?: string | null; noindex?: boolean; structured_data?: Json; updated_by?: string | null };
+        Update: Partial<Database["public"]["Tables"]["seo_settings"]["Insert"]>;
+        Relationships: [];
+      };
+
+      homepage_sections: {
+        Row: { id: string; section_key: string; title: string; eyebrow: string | null; body: string | null; cta_label: string | null; cta_href: string | null; content: Json; display_order: number; is_published: boolean; updated_at: string; updated_by: string | null };
+        Insert: { id?: string; section_key: string; title: string; eyebrow?: string | null; body?: string | null; cta_label?: string | null; cta_href?: string | null; content?: Json; display_order?: number; is_published?: boolean; updated_by?: string | null };
+        Update: Partial<Database["public"]["Tables"]["homepage_sections"]["Insert"]>;
+        Relationships: [];
+      };
+
+      services: {
+        Row: { id: string; slug: string; title: string; description: string; deliverables: string[]; icon: string | null; display_order: number; is_published: boolean; created_at: string; updated_at: string; updated_by: string | null };
+        Insert: { id?: string; slug: string; title: string; description: string; deliverables?: string[]; icon?: string | null; display_order?: number; is_published?: boolean; updated_by?: string | null };
+        Update: Partial<Database["public"]["Tables"]["services"]["Insert"]>;
+        Relationships: [];
+      };
+
+      pricing_plans: {
+        Row: { id: string; slug: string; name: string; price: string; cadence: string | null; description: string; features: string[]; cta_label: string; checkout_url: string | null; is_featured: boolean; is_published: boolean; display_order: number; created_at: string; updated_at: string; updated_by: string | null };
+        Insert: { id?: string; slug: string; name: string; price: string; cadence?: string | null; description: string; features?: string[]; cta_label: string; checkout_url?: string | null; is_featured?: boolean; is_published?: boolean; display_order?: number; updated_by?: string | null };
+        Update: Partial<Database["public"]["Tables"]["pricing_plans"]["Insert"]>;
+        Relationships: [];
+      };
+
+      testimonials: {
+        Row: { id: string; quote: string; name: string; role: string; company: string | null; avatar_url: string | null; is_featured: boolean; display_order: number; created_at: string; updated_at: string; updated_by: string | null };
+        Insert: { id?: string; quote: string; name: string; role: string; company?: string | null; avatar_url?: string | null; is_featured?: boolean; display_order?: number; updated_by?: string | null };
+        Update: Partial<Database["public"]["Tables"]["testimonials"]["Insert"]>;
+        Relationships: [];
+      };
+
+      faq_items: {
+        Row: { id: string; question: string; answer: string; category: string; display_order: number; is_published: boolean; created_at: string; updated_at: string; updated_by: string | null };
+        Insert: { id?: string; question: string; answer: string; category?: string; display_order?: number; is_published?: boolean; updated_by?: string | null };
+        Update: Partial<Database["public"]["Tables"]["faq_items"]["Insert"]>;
+        Relationships: [];
+      };
+
+      blog_posts: {
+        Row: { id: string; slug: string; title: string; excerpt: string; body: string; category: string; cover_image_url: string | null; author_id: string | null; status: "draft" | "scheduled" | "published" | "archived"; published_at: string | null; seo_title: string | null; seo_description: string | null; created_at: string; updated_at: string };
+        Insert: { id?: string; slug: string; title: string; excerpt: string; body?: string; category: string; cover_image_url?: string | null; author_id?: string | null; status?: "draft" | "scheduled" | "published" | "archived"; published_at?: string | null; seo_title?: string | null; seo_description?: string | null };
+        Update: Partial<Database["public"]["Tables"]["blog_posts"]["Insert"]>;
+        Relationships: [];
+      };
+
+      analytics_events: {
+        Row: { id: string; event_name: string; path: string | null; visitor_id: string | null; user_id: string | null; metadata: Json; created_at: string };
+        Insert: { id?: string; event_name: string; path?: string | null; visitor_id?: string | null; user_id?: string | null; metadata?: Json };
+        Update: Partial<Database["public"]["Tables"]["analytics_events"]["Insert"]>;
+        Relationships: [];
+      };
+
+
+      audit_logs: {
+        Row: { id: string; actor_id: string | null; action: string; target_table: string | null; target_id: string | null; metadata: Json; created_at: string };
+        Insert: { id?: string; actor_id?: string | null; action: string; target_table?: string | null; target_id?: string | null; metadata?: Json };
+        Update: Partial<Database["public"]["Tables"]["audit_logs"]["Insert"]>;
+        Relationships: [];
+      };
+
+      notifications: {
+        Row: { id: string; user_id: string; title: string; body: string; is_read: boolean; metadata: Json; created_at: string };
+        Insert: { id?: string; user_id: string; title: string; body: string; is_read?: boolean; metadata?: Json };
+        Update: Partial<Database["public"]["Tables"]["notifications"]["Insert"]>;
+        Relationships: [];
+      };
+
+      messages: {
+        Row: { id: string; user_id: string; subject: string; body: string; is_read: boolean; metadata: Json; created_at: string };
+        Insert: { id?: string; user_id: string; subject: string; body: string; is_read?: boolean; metadata?: Json };
+        Update: Partial<Database["public"]["Tables"]["messages"]["Insert"]>;
+        Relationships: [];
+      };
+
+      contact_messages: {
+        Row: {
+          id: string;
+          name: string;
+          email: string;
+          company: string | null;
+          budget: string | null;
+          message: string;
+          source: string;
+          status: "new" | "qualified" | "replied" | "archived";
+          notes: string | null;
+          created_at: string;
+          assigned_to: string | null;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          email: string;
+          company?: string | null;
+          budget?: string | null;
+          message: string;
+          source?: string;
+          status?: "new" | "qualified" | "replied" | "archived";
+          notes?: string | null;
+          assigned_to?: string | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["contact_messages"]["Insert"]>;
+        Relationships: [];
+      };
+
+      newsletter_subscribers: {
+        Row: {
+          id: string;
+          email: string;
+          source: string;
+          status: "active" | "unsubscribed" | "bounced";
+          segment: string | null;
+          consent_at: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          email: string;
+          source?: string;
+          status?: "active" | "unsubscribed" | "bounced";
+          segment?: string | null;
+          consent_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["newsletter_subscribers"]["Insert"]>;
+        Relationships: [];
+      };
+
+      media_assets: {
+        Row: {
+          id: string;
+          bucket: string;
+          storage_path: string;
+          public_url: string;
+          alt_text: string | null;
+          mime_type: string | null;
+          size_bytes: number | null;
+          uploaded_by: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          bucket?: string;
+          storage_path: string;
+          public_url: string;
+          alt_text?: string | null;
+          mime_type?: string | null;
+          size_bytes?: number | null;
+          uploaded_by?: string | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["media_assets"]["Insert"]>;
+        Relationships: [];
       };
     };
     Views: {

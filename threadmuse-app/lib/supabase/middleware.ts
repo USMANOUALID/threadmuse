@@ -24,7 +24,7 @@ import { supabaseEnv } from "@/lib/supabase/env";
  * Set-Cookie headers are honoured.
  */
 
-const PROTECTED_PATHS = ["/upload", "/settings", "/saved", "/notifications", "/messages", "/dashboard"];
+const PROTECTED_PATHS = ["/upload", "/settings", "/saved", "/notifications", "/messages", "/dashboard", "/admin"];
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -49,10 +49,11 @@ export async function updateSession(request: NextRequest) {
   // Auth gate.
   const pathname = request.nextUrl.pathname;
   const requiresAuth = PROTECTED_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
+  const isAdminLogin = pathname === "/admin/login";
 
-  if (requiresAuth && !user) {
+  if (requiresAuth && !isAdminLogin && !user) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    url.pathname = pathname.startsWith("/admin") ? "/admin/login" : "/login";
     url.searchParams.set("redirect", pathname);
     return NextResponse.redirect(url);
   }

@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 export function PostCard({
   post,
   layout = "full",
-  priority = false,
+  priority: _priority = false,
   initialSaved = false,
 }: {
   post: Post;

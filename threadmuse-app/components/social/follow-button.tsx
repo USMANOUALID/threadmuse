@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { useToggle } from "@/lib/hooks/use-toggle";
 import { toggleFollow } from "@/app/actions/social";
-import { cn } from "@/lib/utils";
 
 export interface FollowButtonProps {
   /** Target profile.id (not username) — toggleFollow needs the uuid. */

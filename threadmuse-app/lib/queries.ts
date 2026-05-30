@@ -193,10 +193,11 @@ export async function getRelatedPosts(post: Post, limit = 8): Promise<Post[]> {
       .neq("id", post.id)
       .order("views", { ascending: false })
       .limit(limit);
-    for (const row of sharedTag ?? []) {
+    const sharedRows = (sharedTag ?? []) as unknown as PostWithJoins[];
+    for (const row of sharedRows) {
       if (out.length >= limit || seen.has(row.id)) continue;
       if (!row.creator) continue;
-      out.push(rowToPost(row as PostWithJoins));
+      out.push(rowToPost(row));
       seen.add(row.id);
     }
   }
@@ -460,6 +461,27 @@ export async function getSavedPostIds(postIds: string[]): Promise<Set<string>> {
     .eq("user_id", user.id)
     .in("post_id", postIds);
   return new Set((data ?? []).map((r) => r.post_id));
+}
+
+
+export async function getMySavedPosts(limit = 48): Promise<Post[]> {
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data } = await supabase
+    .from("saves")
+    .select(`post:posts(${POST_COLUMNS})`)
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  return (data ?? [])
+    .map((row) => row.post as unknown as PostWithJoins | null)
+    .filter((post): post is PostWithJoins => Boolean(post?.creator))
+    .map(rowToPost);
 }
 
 /** Single-post like check — convenience for /post/[slug]. */

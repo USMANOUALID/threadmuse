@@ -1,0 +1,12 @@
+{
+  "name": "NoirEdge",
+  "short_name": "NoirEdge",
+  "description": "Premium AI SaaS operating system for revenue teams.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#ef4444",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

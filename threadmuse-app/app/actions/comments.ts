@@ -27,7 +27,7 @@ export async function createComment(input: z.infer<typeof createCommentSchema>):
   }
 
   const supabase = await createServerSupabaseClient();
-  const { error, data } = await supabase
+  const { error } = await supabase
     .from("comments")
     .insert({
       post_id: parsed.data.postId,

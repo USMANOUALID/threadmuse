@@ -5,27 +5,25 @@ import type { Metadata } from "next";
  * Anything user-facing should pull from here so a rebrand is a one-file change.
  */
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://threadmuse.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://noiredge.ai";
 
 export const siteConfig = {
-  name: "ThreadMuse",
-  shortName: "TM",
-  tagline: "Discover beautiful digital designs.",
+  name: "NoirEdge",
+  shortName: "NE",
+  tagline: "The premium AI operating system for revenue teams.",
   description:
-    "ThreadMuse is a discovery feed for independent makers — crochet patterns, wallpapers, printable art, planners, embroidery PDFs, SVG files and more.",
+    "NoirEdge unifies AI workflows, customer intelligence, automation, and executive analytics in a premium SaaS platform built for high-growth teams.",
   url: siteUrl,
   ogImage: `${siteUrl}/opengraph-image`,
-  twitter: "@threadmuse",
-  pinterest: "threadmuse",
-  email: "hello@threadmuse.app",
-  // Used in JSON-LD Organization markup (Phase 7).
-  legalName: "ThreadMuse Inc.",
+  twitter: "@noiredgeai",
+  pinterest: "noiredge",
+  email: "hello@noiredge.ai",
+  legalName: "NoirEdge Labs Inc.",
   founded: 2026,
-  // Hard-coded so it survives Phase 2 + 3 swaps without breaking SEO numbers.
   stats: {
-    designs: "108k",
-    creators: "4,820",
-    monthlyViewers: "1.6M",
+    designs: "24M",
+    creators: "1,200+",
+    monthlyViewers: "99.98%",
   },
 } as const;
 
@@ -43,19 +41,16 @@ export const defaultMetadata: Metadata = {
   authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
   keywords: [
-    "crochet patterns",
-    "free crochet patterns",
-    "wallpapers",
-    "pink wallpapers",
-    "iPhone wallpapers",
-    "printable wall art",
-    "digital planners",
-    "embroidery PDF",
-    "knitting patterns",
-    "SVG bundle",
-    "sticker pack",
-    "AI wall art",
-    "Etsy digital downloads",
+    "premium SaaS",
+    "AI automation platform",
+    "revenue operations software",
+    "enterprise AI dashboard",
+    "SaaS admin CMS",
+    "customer intelligence",
+    "workflow automation",
+    "AI agency platform",
+    "analytics dashboard",
+    "modern SaaS website",
   ],
   openGraph: {
     type: "website",
@@ -78,8 +73,7 @@ export const defaultMetadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   },
-  icons: { icon: "/favicon.ico", apple: "/apple-touch-icon.png" },
+  icons: { icon: "/favicon.svg", apple: "/icon.svg" },
   manifest: "/site.webmanifest",
-  // Pinterest Rich Pins: claim domain via meta tag in Phase 7.
-  verification: { other: { "p:domain_verify": "TODO_PINTEREST_VERIFICATION" } },
+  verification: { other: { "theme-color": "#09090b" } },
 };

@@ -8,7 +8,6 @@ import { MasonryFeed } from "@/components/feed/masonry-feed";
 import { Button } from "@/components/ui/button";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import {
-  getAllCreatorUsernames,
   getCreatorByUsername,
   getCreatorStats,
   getPosts,
@@ -22,8 +21,9 @@ import { siteConfig } from "@/config/site";
 export const revalidate = 300;
 
 export async function generateStaticParams() {
-  return getAllCreatorUsernames();
+  return [];
 }
+
 
 export async function generateMetadata({
   params,

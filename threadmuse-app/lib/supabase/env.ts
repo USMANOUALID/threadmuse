@@ -19,7 +19,13 @@ function optional(name: string): string | undefined {
 }
 
 export const supabaseEnv = {
-  url: required("NEXT_PUBLIC_SUPABASE_URL"),
-  anonKey: required("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
-  serviceRoleKey: optional("SUPABASE_SERVICE_ROLE_KEY"),
+  get url() {
+    return required("NEXT_PUBLIC_SUPABASE_URL");
+  },
+  get anonKey() {
+    return required("NEXT_PUBLIC_SUPABASE_ANON_KEY");
+  },
+  get serviceRoleKey() {
+    return optional("SUPABASE_SERVICE_ROLE_KEY");
+  },
 };

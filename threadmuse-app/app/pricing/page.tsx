@@ -1,87 +1,71 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageShell } from "@/components/layout/page-shell";
-import { PlanCard } from "@/components/billing/plan-card";
-import { getActivePlans, getMyCurrentPlan } from "@/lib/queries";
-import { getCurrentUser } from "@/lib/auth/get-session";
+import { Check, ShieldCheck } from "lucide-react";
+import { MarketingPageShell } from "@/components/marketing/page-shell";
+import { SectionHeading } from "@/components/marketing/section-heading";
+import { Button } from "@/components/ui/button";
 import { buildMetadata } from "@/config/seo";
+import { getPublicPricingPlans } from "@/lib/cms-public";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Pricing — free forever, with optional Pro",
+  title: "Pricing",
   description:
-    "ThreadMuse is free for makers. Pro unlocks priority discovery, advanced analytics, and AI tagging.",
+    "Premium SaaS website, admin CMS, AI automation, and analytics pricing for high-growth teams.",
   path: "/pricing",
 });
 
-export const revalidate = 600;
+export default async function PricingPage() {
+  const pricingPlans = await getPublicPricingPlans();
 
-/**
- * /pricing — public marketing surface for the paid plans. Reads `plans` from
- * the DB (RLS allows `is_active = true` for everyone), then renders tiles
- * with state-aware CTAs (current / upgrade / sign-up).
- */
-export default async function PricingPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ checkout?: string }>;
-}) {
-  const { checkout } = await searchParams;
-  const [plans, user, currentPlan] = await Promise.all([
-    getActivePlans(),
-    getCurrentUser(),
-    getMyCurrentPlan(),
-  ]);
-
-  const cancelled = checkout === "cancelled";
-
-  // We don't have Pro / Studio seeded yet in dev — the page still works,
-  // it'll just render the Free tile. Stripe seeding lives in scripts/.
   return (
-    <PageShell showMobileSearch={false}>
-      <section className="bg-bg px-4 py-12 sm:px-6 lg:px-8 xl:px-12">
-        <div className="mx-auto max-w-[1024px] text-center">
-          <h1 className="font-display text-display font-semibold tracking-tight text-ink">
-            Pricing built for makers.
-          </h1>
-          <p className="mx-auto mt-3 max-w-[640px] text-pretty text-[15px] leading-relaxed text-muted">
-            Free forever for new creators. Upgrade when your shop earns more than the
-            subscription does.
-          </p>
+    <MarketingPageShell>
+      <section className="container py-20 md:py-28">
+        <SectionHeading
+          eyebrow="Pricing"
+          title="Premium plans for teams that want a serious SaaS presence."
+          description="Start with a conversion website and CMS, then add deeper AI operations, analytics, and enterprise governance."
+          align="center"
+        />
+        <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          {pricingPlans.map((plan) => (
+            <article
+              key={plan.name}
+              className={`relative rounded-3xl border p-6 ${
+                plan.featured
+                  ? "border-accent bg-accent/10 shadow-lift"
+                  : "border-line/10 bg-surface"
+              }`}
+            >
+              {plan.featured && (
+                <span className="absolute right-5 top-5 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
+                  Most popular
+                </span>
+              )}
+              <h2 className="font-display text-2xl font-semibold">{plan.name}</h2>
+              <p className="mt-3 min-h-12 text-sm leading-6 text-muted">{plan.description}</p>
+              <div className="mt-6 flex items-end gap-1">
+                <span className="font-display text-5xl font-semibold">{plan.price}</span>
+                <span className="pb-2 text-sm text-muted">{plan.cadence}</span>
+              </div>
+              <ul className="mt-6 space-y-3">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-center gap-3 text-sm text-muted">
+                    <Check className="size-4 text-accent" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Button asChild className="mt-8 w-full" variant={plan.featured ? "primary" : "outline"}>
+                <Link href="/contact">{plan.cta}</Link>
+              </Button>
+            </article>
+          ))}
         </div>
-
-        {cancelled && (
-          <div className="mx-auto mt-6 max-w-md rounded-md border border-line/10 bg-warm px-4 py-3 text-center text-[13px] text-ink">
-            Checkout cancelled. You can pick a plan whenever you're ready.
-          </div>
-        )}
-
-        <div className="mx-auto mt-10 grid max-w-[1024px] gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {plans.map((p, i) => {
-            const isCurrent = !!currentPlan && currentPlan.plan_id === p.id;
-            const variant: "current" | "upgrade" | "anon" = !user
-              ? "anon"
-              : isCurrent
-                ? "current"
-                : "upgrade";
-            return (
-              <PlanCard
-                key={p.id}
-                plan={p}
-                variant={variant}
-                highlight={i === 1}
-                signedIn={!!user}
-              />
-            );
-          })}
+        <div className="mx-auto mt-10 flex max-w-2xl items-center gap-3 rounded-2xl border border-line/10 bg-surface p-4 text-sm text-muted">
+          <ShieldCheck className="size-5 text-accent" />
+          All plans include Supabase-backed authentication, admin access controls, CMS tables, and deployment-ready SEO foundations.
         </div>
-
-        <p className="mt-10 text-center text-[12px] text-muted">
-          Already a member?{" "}
-          <Link href="/settings/billing" className="underline-offset-4 hover:underline">
-            Manage your billing →
-          </Link>
-        </p>
       </section>
-    </PageShell>
+    </MarketingPageShell>
   );
 }
