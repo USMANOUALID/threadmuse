@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"], // not used by ThreadMuse — kept off; no dark mode per brand
+  darkMode: ["class"],
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -24,8 +24,6 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // ThreadMuse warm-pink "blush" palette. All consumed via CSS vars so we
-        // can re-theme without recompiling Tailwind.
         bg:       "hsl(var(--bg) / <alpha-value>)",
         surface:  "hsl(var(--surface) / <alpha-value>)",
         sand:     "hsl(var(--sand) / <alpha-value>)",
@@ -37,7 +35,6 @@ const config: Config = {
         "accent-2": "hsl(var(--accent-2) / <alpha-value>)",
         soft:     "hsl(var(--soft) / <alpha-value>)",
 
-        // shadcn-compatible aliases (used by Button/Badge primitives).
         background: "hsl(var(--bg) / <alpha-value>)",
         foreground: "hsl(var(--ink) / <alpha-value>)",
         primary: {
@@ -61,7 +58,6 @@ const config: Config = {
         display: ["var(--font-poppins)", "system-ui", "sans-serif"],
       },
       fontSize: {
-        // Tighter heading scale for boutique editorial feel.
         "display-lg": ["clamp(2.5rem, 5vw, 4.75rem)", { lineHeight: "1.02", letterSpacing: "-0.035em" }],
         "display":    ["clamp(2rem, 4vw, 3.5rem)",    { lineHeight: "1.05", letterSpacing: "-0.03em" }],
         "h1":         ["clamp(1.75rem, 3vw, 2.5rem)", { lineHeight: "1.1",  letterSpacing: "-0.025em" }],
@@ -78,9 +74,9 @@ const config: Config = {
         "2xl": "1.5rem",
       },
       boxShadow: {
-        soft:  "0 1px 2px hsl(30 18% 18% / 0.04), 0 6px 18px hsl(30 18% 18% / 0.06)",
-        lift:  "0 6px 18px hsl(30 18% 18% / 0.08), 0 24px 48px hsl(30 18% 18% / 0.10)",
-        cta:   "0 4px 14px hsl(30 18% 18% / 0.18)",
+        soft:  "0 1px 2px hsl(0 0% 0% / 0.18), 0 16px 40px hsl(0 0% 0% / 0.24)",
+        lift:  "0 14px 36px hsl(0 0% 0% / 0.32), 0 36px 90px hsl(0 85% 50% / 0.12)",
+        cta:   "0 16px 42px hsl(0 86% 57% / 0.28)",
         inner: "inset 0 0 0 1px hsl(var(--line))",
       },
       keyframes: {
@@ -88,10 +84,20 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(8px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        "pulse-glow": {
+          "0%, 100%": { opacity: "0.55", transform: "scale(1)" },
+          "50%": { opacity: "0.9", transform: "scale(1.04)" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
         blink: { "50%": { opacity: "0" } },
       },
       animation: {
         "fade-up": "fade-up 0.4s cubic-bezier(0.2, 0.7, 0.3, 1) both",
+        "pulse-glow": "pulse-glow 5s ease-in-out infinite",
+        marquee: "marquee 22s linear infinite",
         blink: "blink 1s infinite",
       },
     },

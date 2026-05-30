@@ -313,6 +313,85 @@ export interface Database {
           { foreignKeyName: "subscriptions_plan_id_fkey"; columns: ["plan_id"]; referencedRelation: "plans"; referencedColumns: ["id"] },
         ];
       };
+
+      contact_messages: {
+        Row: {
+          id: string;
+          name: string;
+          email: string;
+          company: string | null;
+          budget: string | null;
+          message: string;
+          source: string;
+          status: "new" | "qualified" | "replied" | "archived";
+          notes: string | null;
+          created_at: string;
+          assigned_to: string | null;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          email: string;
+          company?: string | null;
+          budget?: string | null;
+          message: string;
+          source?: string;
+          status?: "new" | "qualified" | "replied" | "archived";
+          notes?: string | null;
+          assigned_to?: string | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["contact_messages"]["Insert"]>;
+        Relationships: [];
+      };
+
+      newsletter_subscribers: {
+        Row: {
+          id: string;
+          email: string;
+          source: string;
+          status: "active" | "unsubscribed" | "bounced";
+          segment: string | null;
+          consent_at: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          email: string;
+          source?: string;
+          status?: "active" | "unsubscribed" | "bounced";
+          segment?: string | null;
+          consent_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["newsletter_subscribers"]["Insert"]>;
+        Relationships: [];
+      };
+
+      media_assets: {
+        Row: {
+          id: string;
+          bucket: string;
+          storage_path: string;
+          public_url: string;
+          alt_text: string | null;
+          mime_type: string | null;
+          size_bytes: number | null;
+          uploaded_by: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          bucket?: string;
+          storage_path: string;
+          public_url: string;
+          alt_text?: string | null;
+          mime_type?: string | null;
+          size_bytes?: number | null;
+          uploaded_by?: string | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["media_assets"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: {
       current_plan: {

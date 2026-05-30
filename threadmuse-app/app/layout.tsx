@@ -21,29 +21,26 @@ const poppins = Poppins({
 export const metadata: Metadata = defaultMetadata;
 
 export const viewport: Viewport = {
-  themeColor: "#fdfaf6",
+  themeColor: "#09090b",
   width: "device-width",
   initialScale: 1,
-  // Allow zoom for accessibility — never lock to 1.
   maximumScale: 5,
-  colorScheme: "light",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       <body className="min-h-dvh antialiased">
-        {/* Skip link — improves a11y + Lighthouse score. */}
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-ink focus:px-3 focus:py-2 focus:text-bg"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-white"
         >
           Skip to content
         </a>
 
         {children}
 
-        {/* JSON-LD WebSite — enables Google Sitelinks Searchbox in Phase 7. */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
