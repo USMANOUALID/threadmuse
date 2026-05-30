@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { MarketingPageShell } from "@/components/marketing/page-shell";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import { buildMetadata } from "@/config/seo";
-import { blogPosts } from "@/lib/saas-content";
+import { getPublicBlogPosts } from "@/lib/cms-public";
 
 export const metadata: Metadata = buildMetadata({
   title: "Blog",
@@ -12,7 +12,9 @@ export const metadata: Metadata = buildMetadata({
   path: "/blog",
 });
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const blogPosts = await getPublicBlogPosts();
+
   return (
     <MarketingPageShell>
       <section className="container py-20 md:py-28">

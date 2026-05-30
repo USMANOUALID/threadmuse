@@ -71,14 +71,14 @@ export async function subscribeToNewsletter(formData: FormData) {
   if (parsed.success) {
     try {
       const supabase = await createServerSupabaseClient();
-      await supabase.from("newsletter_subscribers").upsert(
-        {
-          email: parsed.data.email,
-          source: parsed.data.source ?? "website",
-          status: "active",
-        },
-        { onConflict: "email" },
-      );
+      const { error } = await supabase.from("newsletter_subscribers").insert({
+        email: parsed.data.email,
+        source: parsed.data.source ?? "website",
+        status: "active",
+      });
+      if (error && error.code !== "23505") {
+        throw error;
+      }
     } catch (error) {
       console.error("Failed to store newsletter subscription", error);
       redirect(`${destination}?newsletter=queued`);

@@ -16,11 +16,20 @@ export default async function ProtectedAdminLayout({ children }: { children: Rea
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("is_admin")
+    .select("is_admin, role")
     .eq("id", user.id)
     .maybeSingle();
 
-  if (!profile?.is_admin) {
+  const { data: adminRole } = await supabase
+    .from("admin_roles")
+    .select("role")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  const role = String(profile?.role ?? adminRole?.role ?? "member");
+  const allowed = Boolean(profile?.is_admin) || ["owner", "admin", "editor"].includes(role) || Boolean(adminRole);
+
+  if (!allowed) {
     redirect("/admin/login?error=forbidden");
   }
 

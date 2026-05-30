@@ -5,7 +5,7 @@ import { MarketingPageShell } from "@/components/marketing/page-shell";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import { Button } from "@/components/ui/button";
 import { buildMetadata } from "@/config/seo";
-import { pricingPlans } from "@/lib/saas-content";
+import { getPublicPricingPlans } from "@/lib/cms-public";
 
 export const metadata: Metadata = buildMetadata({
   title: "Pricing",
@@ -14,7 +14,9 @@ export const metadata: Metadata = buildMetadata({
   path: "/pricing",
 });
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const pricingPlans = await getPublicPricingPlans();
+
   return (
     <MarketingPageShell>
       <section className="container py-20 md:py-28">

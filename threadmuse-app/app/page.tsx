@@ -9,12 +9,11 @@ import { SectionHeading } from "@/components/marketing/section-heading";
 import { ContactForm } from "@/components/marketing/contact-form";
 import {
   benefits,
-  faqs,
   features,
   heroStats,
   partnerLogos,
-  testimonials,
 } from "@/lib/saas-content";
+import { getPublicFaqs, getPublicTestimonials } from "@/lib/cms-public";
 
 export const metadata: Metadata = buildMetadata({
   title: `${siteConfig.name} — ${siteConfig.tagline}`,
@@ -84,7 +83,9 @@ function DashboardPreview() {
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [testimonials, faqs] = await Promise.all([getPublicTestimonials(), getPublicFaqs()]);
+
   return (
     <MarketingPageShell>
       <section className="premium-grid relative overflow-hidden">

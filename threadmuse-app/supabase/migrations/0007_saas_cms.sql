@@ -222,8 +222,10 @@ drop policy if exists "visitors create contact messages" on public.contact_messa
 create policy "visitors create contact messages" on public.contact_messages for insert with check (true);
 drop policy if exists "visitors subscribe newsletter" on public.newsletter_subscribers;
 create policy "visitors subscribe newsletter" on public.newsletter_subscribers for insert with check (true);
+
+drop policy if exists "visitors create analytics events" on public.analytics_events;
+create policy "visitors create analytics events" on public.analytics_events for insert with check (true);
 drop policy if exists "visitors update own newsletter by email" on public.newsletter_subscribers;
-create policy "visitors update own newsletter by email" on public.newsletter_subscribers for update using (true) with check (true);
 
 do $$
 declare
@@ -270,3 +272,74 @@ drop policy if exists "admins manage cms media" on storage.objects;
 create policy "admins manage cms media" on storage.objects
 for all using (bucket_id = 'cms-media' and public.is_admin())
 with check (bucket_id = 'cms-media' and public.is_admin());
+
+
+drop policy if exists "admins manage profiles" on public.profiles;
+create policy "admins manage profiles" on public.profiles
+for all using (public.is_admin()) with check (public.is_admin());
+
+insert into public.site_settings (key, value)
+values
+  ('brand', '{"name":"NoirEdge","primaryColor":"#ef4444","supportEmail":"hello@noiredge.ai","primaryCta":"Book strategy call"}'::jsonb),
+  ('social', '{"twitter":"https://x.com/noiredgeai","linkedin":"https://linkedin.com/company/noiredge"}'::jsonb),
+  ('analytics', '{"enabled":true,"provider":"supabase_events"}'::jsonb)
+on conflict (key) do nothing;
+
+insert into public.seo_settings (path, title, description, canonical_url, noindex, structured_data)
+values
+  ('/', 'NoirEdge - Premium AI SaaS operating system', 'NoirEdge unifies AI workflows, customer intelligence, automation, and executive analytics for high-growth teams.', null, false, '{}'::jsonb),
+  ('/services', 'Services - NoirEdge', 'Premium SaaS websites, AI automation, CMS operations, SEO, and analytics command centers.', null, false, '{}'::jsonb),
+  ('/pricing', 'Pricing - NoirEdge', 'Premium plans for SaaS teams that need CMS, AI automation, analytics, and secure admin workflows.', null, false, '{}'::jsonb),
+  ('/blog', 'Blog - NoirEdge', 'Insights about premium SaaS growth, Supabase CMS, AI operations, and conversion systems.', null, false, '{}'::jsonb)
+on conflict (path) do nothing;
+
+insert into public.homepage_sections (section_key, eyebrow, title, body, cta_label, cta_href, content, display_order, is_published)
+values
+  ('hero', 'Premium AI SaaS website + CMS', 'A luxury SaaS presence with an AI-powered admin engine.', 'Launch a Stripe-level dark website with conversion pages, Supabase CMS, secure admins, SEO controls, analytics, and editable content.', 'Book strategy call', '/contact', '{"stats":[{"label":"Automated workflows","value":"24M+"},{"label":"Revenue teams onboarded","value":"1200+"},{"label":"Platform uptime","value":"99.98%"}]}'::jsonb, 1, true),
+  ('features', 'Platform', 'Everything a premium SaaS brand needs to launch, manage, and grow.', 'Website and admin system are designed together so content, conversion, and database security stay aligned.', 'Explore services', '/services', '{}'::jsonb, 2, true),
+  ('cta', 'Call to action', 'Ready for a SaaS site that feels expensive and works hard?', 'Tell us what you want to launch. Every inquiry is stored in Supabase for admin review and follow-up.', 'Request private strategy call', '/contact', '{}'::jsonb, 10, true)
+on conflict (section_key) do nothing;
+
+insert into public.services (slug, title, description, deliverables, icon, display_order, is_published)
+values
+  ('ai-automation', 'AI Automation Systems', 'Design, deploy, and monitor AI workflows that qualify leads, summarize accounts, trigger lifecycle campaigns, and route high-value work.', array['Workflow maps','Prompt operations','Human approval queues','Audit dashboards'], 'bot', 1, true),
+  ('saas-growth-sites', 'Premium SaaS Growth Websites', 'Conversion-focused websites with animated sections, pricing, CMS editing, SEO foundations, and launch-ready analytics.', array['Landing pages','SEO architecture','CMS fields','Performance optimization'], 'sparkles', 2, true),
+  ('analytics-command-center', 'Analytics Command Centers', 'Board-ready dashboards for pipeline, retention, activation, revenue expansion, content performance, and channel ROI.', array['KPI modeling','Supabase views','Role-based reports','Executive summaries'], 'bar-chart', 3, true),
+  ('cms-ops', 'CMS & Content Operations', 'Structured content models for services, pricing, testimonials, FAQs, articles, metadata, media, and global settings.', array['Content schemas','Admin workflows','Media library','Approval flows'], 'database', 4, true)
+on conflict (slug) do nothing;
+
+insert into public.pricing_plans (slug, name, price, cadence, description, features, cta_label, is_featured, display_order, is_published)
+values
+  ('launch', 'Launch', '$149', '/mo', 'For founders and boutique teams launching a premium SaaS presence.', array['Editable website CMS','Contact and newsletter storage','Basic analytics','1 admin seat'], 'Start Launch', false, 1, true),
+  ('scale', 'Scale', '$399', '/mo', 'For teams that need automation, content velocity, and richer reporting.', array['Everything in Launch','AI workflow modules','Advanced SEO settings','5 admin seats','Priority support'], 'Choose Scale', true, 2, true),
+  ('enterprise', 'Enterprise', 'Custom', null, 'For organizations with bespoke data, security, and operating-model requirements.', array['Custom Supabase architecture','SAML-ready admin access','Dedicated success','Quarterly growth reviews'], 'Talk to sales', false, 3, true)
+on conflict (slug) do nothing;
+
+insert into public.testimonials (quote, name, role, company, is_featured, display_order)
+values
+  ('NoirEdge made our site feel like a category leader and gave our operators a CMS that mirrors how the business works.', 'Maya Chen', 'COO', 'SignalForge', true, 1),
+  ('The admin dashboard is the rare combination of beautiful and useful. Our team edits content, reviews leads, and tracks campaigns without engineering tickets.', 'Andre Willis', 'VP Growth', 'Northstar AI', true, 2),
+  ('We went from static pages to an AI-enabled operating layer with clean policies, secure roles, and executive-grade analytics.', 'Elena Rossi', 'Founder', 'ArcPilot', true, 3)
+on conflict do nothing;
+
+insert into public.faq_items (question, answer, category, display_order, is_published)
+values
+  ('Is the CMS connected to Supabase?', 'Yes. Content, media, settings, SEO, messages, newsletter leads, analytics, and roles are backed by Supabase tables with RLS.', 'CMS', 1, true),
+  ('Can non-technical admins edit the website?', 'Yes. Admins can manage homepage sections, services, pricing, testimonials, FAQ, blog, media, settings, SEO, users, and analytics.', 'Admin', 2, true),
+  ('How is admin access protected?', 'Supabase Auth handles sessions. Server layouts and server actions verify admin roles before rendering or mutating data.', 'Security', 3, true),
+  ('Is it deployment ready?', 'The project includes migrations, RLS, storage policies, SEO routes, responsive pages, build checks, and a clean dependency audit.', 'Deployment', 4, true)
+on conflict do nothing;
+
+insert into public.blog_posts (slug, title, excerpt, body, category, status, published_at, seo_title, seo_description)
+values
+  ('premium-saas-homepage-anatomy', 'The anatomy of a premium SaaS homepage that converts enterprise buyers', 'A practical breakdown of hero clarity, trust architecture, objections, proof, pricing, and action paths.', 'Premium SaaS homepages convert when positioning, proof, objections, pricing, and action paths are designed as one system.', 'Growth', 'published', now(), 'Premium SaaS homepage anatomy', 'Learn how premium SaaS teams structure high-converting homepages.'),
+  ('supabase-cms-rls', 'How to design a Supabase CMS with row-level security and admin roles', 'Secure patterns for editable content, public reads, private messages, media libraries, and user management.', 'A production CMS needs public read policies, admin-only writes, media bucket rules, and strict role checks in server actions.', 'Engineering', 'published', now(), 'Supabase CMS with RLS', 'Build secure Supabase CMS tables with admin role permissions.'),
+  ('ai-ops-dashboard', 'What executives actually need from an AI operations dashboard', 'The metrics, workflow states, and governance signals that make AI automation safe enough for revenue teams.', 'Executive dashboards should connect automation throughput, approvals, revenue impact, and governance into a single operating view.', 'Analytics', 'published', now(), 'AI operations dashboard metrics', 'The AI dashboard metrics executives need for safe automation.')
+on conflict (slug) do nothing;
+
+insert into public.analytics_events (event_name, path, visitor_id, metadata)
+values
+  ('page_view', '/', 'seed', '{"source":"seed"}'::jsonb),
+  ('contact_submit', '/contact', 'seed', '{"source":"seed"}'::jsonb),
+  ('pricing_view', '/pricing', 'seed', '{"source":"seed"}'::jsonb)
+on conflict do nothing;

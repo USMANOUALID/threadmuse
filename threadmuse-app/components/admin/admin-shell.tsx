@@ -77,6 +77,13 @@ export function AdminShell({
               View website
             </Link>
           </div>
+          <nav className="scrollbar-none flex gap-2 overflow-x-auto border-t border-line/10 px-4 py-3 lg:hidden" aria-label="Admin sections">
+            {nav.map(({ label, href }) => (
+              <Link key={href} href={href} className="shrink-0 rounded-full border border-line/10 bg-surface px-3 py-2 text-xs font-semibold text-muted">
+                {label}
+              </Link>
+            ))}
+          </nav>
         </header>
         <main className="px-4 py-8 lg:px-8">{children}</main>
       </div>

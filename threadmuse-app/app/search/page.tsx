@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Search } from "lucide-react";
 import { MarketingPageShell } from "@/components/marketing/page-shell";
 import { buildMetadata } from "@/config/seo";
-import { searchIndex } from "@/lib/saas-content";
+import { features } from "@/lib/saas-content";
+import { getPublicBlogPosts, getPublicPricingPlans, getPublicServices } from "@/lib/cms-public";
 
 export async function generateMetadata({
   searchParams,
@@ -25,6 +26,17 @@ export default async function SearchPage({
 }) {
   const { q = "" } = await searchParams;
   const query = q.trim().toLowerCase();
+  const [services, pricingPlans, blogPosts] = await Promise.all([
+    getPublicServices(),
+    getPublicPricingPlans(),
+    getPublicBlogPosts(),
+  ]);
+  const searchIndex = [
+    ...features.map((item) => ({ title: item.title, description: item.description, href: "/", type: "Feature" })),
+    ...services.map((item) => ({ title: item.title, description: item.description, href: "/services", type: "Service" })),
+    ...pricingPlans.map((item) => ({ title: `${item.name} plan`, description: item.description, href: "/pricing", type: "Pricing" })),
+    ...blogPosts.map((item) => ({ title: item.title, description: item.excerpt, href: "/blog", type: "Article" })),
+  ];
   const results = query
     ? searchIndex.filter((item) =>
         [item.title, item.description, item.type].join(" ").toLowerCase().includes(query),
