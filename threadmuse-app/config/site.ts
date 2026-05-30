@@ -73,7 +73,7 @@ export const defaultMetadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   },
-  icons: { icon: "/favicon.ico", apple: "/apple-touch-icon.png" },
+  icons: { icon: "/favicon.svg", apple: "/icon.svg" },
   manifest: "/site.webmanifest",
   verification: { other: { "theme-color": "#09090b" } },
 };

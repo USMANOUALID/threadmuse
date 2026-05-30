@@ -46,6 +46,7 @@ export interface Database {
           cover_url?: string | null;
           role?: "member" | "editor" | "admin" | "owner";
           last_seen_at?: string | null;
+          deleted_at?: string | null;
           is_admin?: boolean;
           is_verified?: boolean;
         };
@@ -389,6 +390,28 @@ export interface Database {
         Row: { id: string; event_name: string; path: string | null; visitor_id: string | null; user_id: string | null; metadata: Json; created_at: string };
         Insert: { id?: string; event_name: string; path?: string | null; visitor_id?: string | null; user_id?: string | null; metadata?: Json };
         Update: Partial<Database["public"]["Tables"]["analytics_events"]["Insert"]>;
+        Relationships: [];
+      };
+
+
+      audit_logs: {
+        Row: { id: string; actor_id: string | null; action: string; target_table: string | null; target_id: string | null; metadata: Json; created_at: string };
+        Insert: { id?: string; actor_id?: string | null; action: string; target_table?: string | null; target_id?: string | null; metadata?: Json };
+        Update: Partial<Database["public"]["Tables"]["audit_logs"]["Insert"]>;
+        Relationships: [];
+      };
+
+      notifications: {
+        Row: { id: string; user_id: string; title: string; body: string; is_read: boolean; metadata: Json; created_at: string };
+        Insert: { id?: string; user_id: string; title: string; body: string; is_read?: boolean; metadata?: Json };
+        Update: Partial<Database["public"]["Tables"]["notifications"]["Insert"]>;
+        Relationships: [];
+      };
+
+      messages: {
+        Row: { id: string; user_id: string; subject: string; body: string; is_read: boolean; metadata: Json; created_at: string };
+        Insert: { id?: string; user_id: string; subject: string; body: string; is_read?: boolean; metadata?: Json };
+        Update: Partial<Database["public"]["Tables"]["messages"]["Insert"]>;
         Relationships: [];
       };
 

@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type { Json } from "@/types/database";
+import { rateLimit } from "@/lib/rate-limit";
 
 const eventSchema = z.object({
   eventName: z.string().min(1).max(120).default("page_view"),
@@ -15,6 +16,10 @@ export async function POST(request: NextRequest) {
   const parsed = eventSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json({ ok: false }, { status: 400 });
+  }
+
+  if (!rateLimit(`analytics:${parsed.data.visitorId ?? request.headers.get("x-forwarded-for") ?? "anon"}`, 120, 60 * 1000).ok) {
+    return NextResponse.json({ ok: false }, { status: 429 });
   }
 
   try {

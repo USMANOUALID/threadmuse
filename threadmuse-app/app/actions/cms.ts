@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { rateLimit } from "@/lib/rate-limit";
 
 const contactSchema = z.object({
   name: z.string().min(2).max(120),
@@ -11,12 +12,14 @@ const contactSchema = z.object({
   budget: z.string().max(80).optional(),
   message: z.string().min(10).max(4000),
   redirectTo: z.string().optional(),
+  companyWebsite: z.string().optional(),
 });
 
 const newsletterSchema = z.object({
   email: z.string().email().max(160),
   source: z.string().max(120).optional(),
   redirectTo: z.string().optional(),
+  companyWebsite: z.string().optional(),
 });
 
 function safeRedirect(path: string | undefined, fallback: string) {
@@ -34,9 +37,14 @@ export async function submitContactMessage(formData: FormData) {
     budget: formData.get("budget") || undefined,
     message: formData.get("message"),
     redirectTo: formData.get("redirectTo") || undefined,
+    companyWebsite: formData.get("companyWebsite") || undefined,
   });
 
   const destination = safeRedirect(parsed.data?.redirectTo, "/contact");
+  if (parsed.success && parsed.data.companyWebsite) redirect(`${destination}?sent=1`);
+  if (!rateLimit(`contact:${parsed.success ? parsed.data.email : "invalid"}`, 5, 60 * 60 * 1000).ok) {
+    redirect(`${destination}?sent=rate_limited`);
+  }
 
   if (parsed.success) {
     try {
@@ -64,9 +72,14 @@ export async function subscribeToNewsletter(formData: FormData) {
     email: formData.get("email"),
     source: formData.get("source") || "website",
     redirectTo: formData.get("redirectTo") || undefined,
+    companyWebsite: formData.get("companyWebsite") || undefined,
   });
 
   const destination = safeRedirect(parsed.data?.redirectTo, "/contact");
+  if (parsed.success && parsed.data.companyWebsite) redirect(`${destination}?sent=1`);
+  if (!rateLimit(`contact:${parsed.success ? parsed.data.email : "invalid"}`, 5, 60 * 60 * 1000).ok) {
+    redirect(`${destination}?sent=rate_limited`);
+  }
 
   if (parsed.success) {
     try {

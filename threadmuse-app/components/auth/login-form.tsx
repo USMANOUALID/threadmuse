@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import * as React from "react";
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
@@ -75,7 +76,13 @@ export function LoginForm({
           />
         </Field>
 
-        <Field label="Password">
+        <div className="grid gap-1.5">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-[12px] font-semibold tracking-[0.01em] text-ink">Password</span>
+            <Link href="/forgot-password" className="text-[12px] font-semibold text-accent hover:underline">
+              Forgot password?
+            </Link>
+          </div>
           <Input
             type="password"
             name="password"
@@ -84,7 +91,7 @@ export function LoginForm({
             minLength={6}
             placeholder="••••••••"
           />
-        </Field>
+        </div>
 
         {error && <ErrorBanner message={error} />}
 

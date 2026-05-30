@@ -5,6 +5,7 @@ export function ContactForm({ redirectTo = "/contact" }: { redirectTo?: string }
   return (
     <form action={submitContactMessage} className="grid gap-4 rounded-3xl border border-line/10 bg-surface/80 p-5 shadow-lift backdrop-blur md:p-6">
       <input type="hidden" name="redirectTo" value={redirectTo} />
+      <input className="hidden" tabIndex={-1} autoComplete="off" name="companyWebsite" aria-hidden="true" />
       <div className="grid gap-4 md:grid-cols-2">
         <label className="grid gap-2 text-sm font-medium text-ink">
           Name

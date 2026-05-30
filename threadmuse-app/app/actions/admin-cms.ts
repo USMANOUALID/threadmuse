@@ -125,6 +125,24 @@ function parsePayload(section: CmsSectionKey, formData: FormData, mode: "create"
   return payload;
 }
 
+
+async function logAudit(
+  supabase: SupabaseAny,
+  actorId: string,
+  action: string,
+  targetTable?: string,
+  targetId?: string,
+  metadata: Record<string, unknown> = {},
+) {
+  await (supabase.from("audit_logs") as unknown as DynamicQuery).insert({
+    actor_id: actorId,
+    action,
+    target_table: targetTable ?? null,
+    target_id: targetId ?? null,
+    metadata,
+  });
+}
+
 async function writeAdminRoleIfNeeded(supabase: SupabaseAny, section: CmsSectionKey, id: string, payload: Record<string, unknown>) {
   if (section !== "users") return;
   const role = String(payload.role ?? "member");
@@ -155,6 +173,7 @@ export async function createCmsRecord(formData: FormData) {
 
     const { error } = await (supabase.from(section.table) as unknown as DynamicQuery).insert(payload);
     if (error) throw new Error(error.message);
+    await logAudit(supabase, user.id, "create", section.table, undefined, { section: section.key });
   } catch (error) {
     redirect(`${safeAdminPath(sectionValue)}?error=${encodeURIComponent(error instanceof Error ? error.message : "Create failed")}`);
   }
@@ -191,6 +210,7 @@ export async function updateCmsRecord(formData: FormData) {
     if (error) throw new Error(error.message);
 
     await writeAdminRoleIfNeeded(supabase, sectionKey, id.data, payload);
+    await logAudit(supabase, user.id, "update", section.table, id.data, { section: section.key });
   } catch (error) {
     redirect(`${safeAdminPath(sectionValue)}?error=${encodeURIComponent(error instanceof Error ? error.message : "Update failed")}`);
   }
@@ -206,7 +226,7 @@ export async function deleteCmsRecord(formData: FormData) {
   if (!section || !id.success) redirect("/admin");
   if (section.deleteEnabled === false) redirect(safeAdminPath(sectionValue));
 
-  const { supabase, role } = await requireAdmin();
+  const { supabase, user, role } = await requireAdmin();
   if (!canManageSection(role, section.key)) redirect("/admin?error=forbidden");
 
   try {
@@ -223,6 +243,7 @@ export async function deleteCmsRecord(formData: FormData) {
 
     const { error } = await (supabase.from(section.table) as unknown as DynamicQuery).delete().eq(section.primaryKey, id.data);
     if (error) throw new Error(error.message);
+    await logAudit(supabase, user.id, "delete", section.table, id.data, { section: section.key });
   } catch (error) {
     redirect(`${safeAdminPath(sectionValue)}?error=${encodeURIComponent(error instanceof Error ? error.message : "Delete failed")}`);
   }

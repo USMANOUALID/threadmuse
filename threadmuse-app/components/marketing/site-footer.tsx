@@ -68,6 +68,7 @@ export function SiteFooter() {
             <form action={subscribeToNewsletter} className="mt-4 flex rounded-full border border-line/10 bg-surface p-1">
               <input type="hidden" name="redirectTo" value="/contact" />
               <input type="hidden" name="source" value="footer" />
+              <input className="hidden" tabIndex={-1} autoComplete="off" name="companyWebsite" aria-hidden="true" />
               <input
                 aria-label="Newsletter email"
                 name="email"

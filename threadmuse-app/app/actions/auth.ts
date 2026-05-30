@@ -18,6 +18,14 @@ const signInSchema = z.object({
   redirect: z.string().optional(),
 });
 
+const resetRequestSchema = z.object({
+  email: z.string().email("Enter a valid email."),
+});
+
+const updatePasswordSchema = z.object({
+  password: z.string().min(8, "Password must be at least 8 characters."),
+});
+
 const signUpSchema = z.object({
   email: z.string().email("Enter a valid email."),
   password: z.string().min(8, "Password must be at least 8 characters."),
@@ -91,6 +99,37 @@ export async function signUpWithPassword(formData: FormData): Promise<ActionResu
   const redirectTo = sanitizeRedirect(parsed.data.redirect) ?? "/";
   revalidatePath("/", "layout");
   redirect(redirectTo);
+}
+
+
+export async function requestPasswordReset(formData: FormData): Promise<ActionResult> {
+  const parsed = resetRequestSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input." };
+  }
+
+  const supabase = await createServerSupabaseClient();
+  const origin = await getOrigin();
+  const { error } = await supabase.auth.resetPasswordForEmail(parsed.data.email, {
+    redirectTo: `${origin}/auth/callback?next=${encodeURIComponent("/reset-password")}`,
+  });
+
+  if (error) return { ok: false, error: error.message };
+  return { ok: true };
+}
+
+export async function updatePassword(formData: FormData): Promise<ActionResult> {
+  const parsed = updatePasswordSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input." };
+  }
+
+  const supabase = await createServerSupabaseClient();
+  const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/", "layout");
+  redirect("/settings/account?password=updated");
 }
 
 export async function signInWithGoogle(redirectTo?: string): Promise<ActionResult> {

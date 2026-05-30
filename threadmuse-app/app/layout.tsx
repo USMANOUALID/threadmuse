@@ -44,17 +44,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: siteConfig.name,
-              url: siteConfig.url,
-              potentialAction: {
-                "@type": "SearchAction",
-                target: `${siteConfig.url}/search?q={search_term_string}`,
-                "query-input": "required name=search_term_string",
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                name: siteConfig.name,
+                url: siteConfig.url,
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: `${siteConfig.url}/search?q={search_term_string}`,
+                  "query-input": "required name=search_term_string",
+                },
               },
-            }),
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                name: siteConfig.legalName,
+                url: siteConfig.url,
+                email: siteConfig.email,
+                foundingDate: String(siteConfig.founded),
+                logo: `${siteConfig.url}/icon.svg`,
+              },
+            ]),
           }}
         />
       </body>

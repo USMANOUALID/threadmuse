@@ -463,6 +463,27 @@ export async function getSavedPostIds(postIds: string[]): Promise<Set<string>> {
   return new Set((data ?? []).map((r) => r.post_id));
 }
 
+
+export async function getMySavedPosts(limit = 48): Promise<Post[]> {
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data } = await supabase
+    .from("saves")
+    .select(`post:posts(${POST_COLUMNS})`)
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  return (data ?? [])
+    .map((row) => row.post as unknown as PostWithJoins | null)
+    .filter((post): post is PostWithJoins => Boolean(post?.creator))
+    .map(rowToPost);
+}
+
 /** Single-post like check — convenience for /post/[slug]. */
 export async function isPostLikedByMe(postId: string): Promise<boolean> {
   const set = await getLikedPostIds([postId]);

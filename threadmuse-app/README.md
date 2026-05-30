@@ -92,3 +92,29 @@ lib/saas-content.ts           Shared marketing and CMS demo content
 supabase/migrations/0007_*    CMS schema, RLS, storage policies
 types/database.ts             Supabase TypeScript table types
 ```
+
+## Production deployment checklist
+
+1. Configure environment variables in hosting:
+   - `NEXT_PUBLIC_SITE_URL`
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - Stripe keys if billing remains enabled
+2. Run Supabase migrations in order:
+   - `supabase db push`
+3. Bootstrap first admin:
+   - Create a Supabase Auth user
+   - Set `profiles.is_admin = true` or insert the user into `public.admin_roles`
+4. Verify storage buckets exist:
+   - `covers`, `galleries`, `avatars`, `cms-media`
+5. Confirm CI passes:
+   - `npm run typecheck`
+   - `npm run lint`
+   - `npm run build`
+   - `npm audit`
+6. Configure production auth:
+   - SMTP sender
+   - OAuth redirect URLs
+   - Email confirmation policy
+7. Review security headers in `next.config.ts` and adjust CSP if third-party scripts are added.

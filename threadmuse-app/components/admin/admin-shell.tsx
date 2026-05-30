@@ -13,6 +13,7 @@ import {
   Settings,
   Tags,
   Users,
+  ShieldCheck,
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
@@ -31,6 +32,7 @@ const nav = [
   { label: "Analytics", href: "/admin/analytics", icon: BarChart3 },
   { label: "Users", href: "/admin/users", icon: Users },
   { label: "Newsletter", href: "/admin/newsletter", icon: Mail },
+  { label: "Audit logs", href: "/admin/audit", icon: ShieldCheck },
 ] as const;
 
 export function AdminShell({
