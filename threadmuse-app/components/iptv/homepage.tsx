@@ -42,6 +42,7 @@ import {
   iptvBrand,
   navItems,
   paymentMethods,
+  premiumSignals,
   plans,
   socialProof,
   steps,
@@ -129,6 +130,48 @@ function SectionShell({
     >
       {children}
     </section>
+  );
+}
+
+function DeferredMount({
+  children,
+  className,
+  minHeight = "min-h-[760px]",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  minHeight?: string;
+}) {
+  const [shouldRender, setShouldRender] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    const node = ref.current;
+    if (!node || shouldRender) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setShouldRender(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setShouldRender(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "900px 0px" },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [shouldRender]);
+
+  return (
+    <div ref={ref} className={cn(className, !shouldRender && minHeight)} aria-busy={!shouldRender}>
+      {shouldRender ? children : null}
+    </div>
   );
 }
 
@@ -447,6 +490,35 @@ function CountersSection() {
             </GlassCard>
           </Reveal>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function PremiumTrustStrip() {
+  return (
+    <section className="relative px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <Reveal>
+          <GlassCard className="overflow-hidden rounded-[2rem]">
+            <div className="grid gap-px bg-white/10 lg:grid-cols-4">
+              {premiumSignals.map((signal, index) => (
+                <div
+                  key={signal.label}
+                  className="bg-slate-950/72 relative p-6 transition duration-300 hover:bg-white/[0.075]"
+                >
+                  <span className="text-xs font-black uppercase tracking-[0.22em] text-cyan-100">
+                    0{index + 1}
+                  </span>
+                  <h3 className="mt-4 font-display text-xl font-semibold tracking-tight text-white">
+                    {signal.label}
+                  </h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-400">{signal.detail}</p>
+                </div>
+              ))}
+            </div>
+          </GlassCard>
+        </Reveal>
       </div>
     </section>
   );
@@ -1038,15 +1110,32 @@ export function IptvHomepage() {
           <main id="main">
             <HeroSection />
             <CountersSection />
+            <PremiumTrustStrip />
             <ExperienceSection />
-            <StreamingIllustrationsSection />
-            <DevicesShowcase />
-            <ComparisonSection />
-            <PricingSection />
-            <HowItWorksSection />
-            <TestimonialsCarousel />
-            <FaqSection />
-            <ContactCtaSection />
+            <DeferredMount>
+              <StreamingIllustrationsSection />
+            </DeferredMount>
+            <DeferredMount>
+              <DevicesShowcase />
+            </DeferredMount>
+            <DeferredMount minHeight="min-h-[640px]">
+              <ComparisonSection />
+            </DeferredMount>
+            <DeferredMount>
+              <PricingSection />
+            </DeferredMount>
+            <DeferredMount minHeight="min-h-[560px]">
+              <HowItWorksSection />
+            </DeferredMount>
+            <DeferredMount>
+              <TestimonialsCarousel />
+            </DeferredMount>
+            <DeferredMount>
+              <FaqSection />
+            </DeferredMount>
+            <DeferredMount minHeight="min-h-[460px]">
+              <ContactCtaSection />
+            </DeferredMount>
           </main>
           <Footer />
         </div>

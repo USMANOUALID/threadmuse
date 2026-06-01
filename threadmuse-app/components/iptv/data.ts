@@ -41,6 +41,16 @@ export const socialProof = [
   { value: "<5 min", label: "typical setup time" },
 ] as const;
 
+export const premiumSignals = [
+  { label: "UHD-first routing", detail: "Prioritizes crisp 4K-ready sources when available" },
+  { label: "Concierge delivery", detail: "Setup instructions matched to your first device" },
+  { label: "Multi-screen ready", detail: "Designed for living room, mobile, tablet, and travel" },
+  {
+    label: "Cable-free control",
+    detail: "Flexible access without rental boxes or technician visits",
+  },
+] as const;
+
 export const features = [
   {
     title: "Concierge setup",
