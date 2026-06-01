@@ -140,6 +140,7 @@ const plans = [
       "Standard activation support",
     ],
     cta: "Start monthly",
+    highlighted: false,
   },
   {
     name: "Signature",
@@ -173,6 +174,7 @@ const plans = [
       "Support by chat",
     ],
     cta: "Go Flex",
+    highlighted: false,
   },
 ] as const;
 
