@@ -1,130 +1,104 @@
-import type { Metadata } from "next";
-import { Filter } from "lucide-react";
-import { Navbar } from "@/components/layout/navbar";
-import { MobileTopBar, MobileSearchTrigger, MobileNav } from "@/components/layout/mobile-nav";
-import { Footer } from "@/components/layout/footer";
-import { Hero } from "@/components/home/hero";
-import { CategoriesGrid } from "@/components/home/categories-grid";
-import { TrendingRow } from "@/components/home/trending-row";
-import { SeoBlock } from "@/components/home/seo-block";
-import { AdSlot } from "@/components/home/ad-slot";
-import { MasonryFeed } from "@/components/feed/masonry-feed";
-import { Button } from "@/components/ui/button";
-import { getPosts, getTrendingPosts } from "@/lib/queries";
-import { buildMetadata } from "@/config/seo";
-import { siteConfig } from "@/config/site";
+import type { Metadata, Viewport } from "next";
+import { IptvHomepage, iptvBrand, iptvFaqs, iptvPlans } from "@/components/iptv/homepage";
 
-// Phase 3 reads from Supabase; ISR keeps it snappy at edge.
-export const revalidate = 60;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://astraview.tv";
 
-export const metadata: Metadata = buildMetadata({
-  title: `${siteConfig.name} — ${siteConfig.tagline}`,
-  description: siteConfig.description,
-  path: "/",
-});
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: "AstraView - Premium IPTV for Live TV, Sports, Movies and Series",
+  description:
+    "AstraView is a premium IPTV service concept with live channels, sports, movies, series, 4K-ready streams, device setup support, and flexible plans.",
+  applicationName: iptvBrand.name,
+  authors: [{ name: iptvBrand.name, url: siteUrl }],
+  creator: iptvBrand.name,
+  keywords: [
+    "premium IPTV",
+    "live TV streaming",
+    "sports IPTV",
+    "movies and series IPTV",
+    "4K IPTV",
+    "Smart TV IPTV",
+    "IPTV subscription",
+    "streaming TV service",
+  ],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName: iptvBrand.name,
+    title: "AstraView - Premium IPTV for every screen",
+    description:
+      "Stream live TV, sports, movies, and series with premium stability, device compatibility, and guided setup.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AstraView - Premium IPTV for every screen",
+    description:
+      "Stream live TV, sports, movies, and series with premium stability, device compatibility, and guided setup.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
 
-const feedFilters = ["For you", "Following", "Newest", "Free only", "Premium"];
+export const viewport: Viewport = {
+  themeColor: "#020617",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  colorScheme: "dark",
+};
 
-export default async function HomePage() {
-  const [trending, freshPosts] = await Promise.all([
-    getTrendingPosts(6),
-    getPosts({ sort: "newest", limit: 24 }),
-  ]);
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: iptvBrand.name,
+  description:
+    "Premium IPTV service concept with live channels, sports, movies, series, device support, and flexible plans.",
+  brand: { "@type": "Brand", name: iptvBrand.name },
+  offers: iptvPlans.map((plan) => ({
+    "@type": "Offer",
+    name: `${iptvBrand.name} ${plan.name}`,
+    priceCurrency: "USD",
+    price: plan.price.replace("$", ""),
+    availability: "https://schema.org/InStock",
+    description: plan.description,
+  })),
+};
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: iptvFaqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
+
+export default function HomePage() {
   return (
     <>
-      <Navbar />
-      <MobileTopBar />
-      <MobileSearchTrigger />
-
-      <main id="main" className="pb-24 md:pb-12">
-        <Hero />
-        <CategoriesGrid />
-        <TrendingRow posts={trending} />
-
-        {/* ─── Fresh uploads ─── */}
-        <section
-          aria-labelledby="fresh-heading"
-          className="bg-bg px-4 pt-8 sm:px-6 lg:px-8 xl:px-12"
-        >
-          <div className="mx-auto max-w-[1440px]">
-            <div className="mb-4 flex items-end justify-between">
-              <h2 id="fresh-heading" className="tm-section-title">
-                Fresh uploads
-              </h2>
-              <a
-                href="/explore?sort=newest"
-                className="tm-section-link hover:underline"
-              >
-                See newest
-              </a>
-            </div>
-
-            <div className="mb-5 flex flex-wrap items-center gap-2">
-              <ul className="scrollbar-none -mx-1 flex gap-1.5 overflow-x-auto px-1">
-                {feedFilters.map((label, i) => (
-                  <li key={label}>
-                    <Button
-                      size="sm"
-                      variant={i === 0 ? "primary" : "outline"}
-                      pill
-                    >
-                      {label}
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-              <Button
-                size="sm"
-                variant="outline"
-                className="ml-auto hidden md:inline-flex"
-              >
-                <Filter className="size-3.5" />
-                Filters
-              </Button>
-            </div>
-
-            <div className="grid gap-7 lg:grid-cols-[1fr_240px] lg:items-start">
-              <MasonryFeed posts={freshPosts} density="balanced" />
-              <aside className="hidden lg:block">
-                <div className="sticky top-20 space-y-3">
-                  <AdSlot size="sidebar" label="Featured: Linen Lab — embroidery shop" />
-                  <div className="rounded-lg border border-line/10 bg-surface p-4">
-                    <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted">
-                      Creator spotlight
-                    </h4>
-                    <p className="mt-2 text-[13px] text-ink">
-                      <span className="font-semibold">Iona Park</span> released 4 new patterns
-                      this week — granny squares, mittens, and a chunky beanie.
-                    </p>
-                    <a
-                      href="/profile/oats.and.thread"
-                      className="mt-3 inline-flex text-[12.5px] font-semibold text-ink hover:underline"
-                    >
-                      View profile →
-                    </a>
-                  </div>
-                </div>
-              </aside>
-            </div>
-
-            <div className="mt-6">
-              <AdSlot label="Yarn shop ad — placed between feed rows · 728×90 leaderboard" />
-            </div>
-          </div>
-        </section>
-
-        <SeoBlock />
-      </main>
-
-      <Footer />
-
-      {/* Mobile sticky ad — kept above the bottom nav. */}
-      <div className="fixed inset-x-0 bottom-16 z-30 px-4 md:hidden">
-        <AdSlot size="mobile-banner" label="Mobile sticky banner — AdSense slot" />
-      </div>
-
-      <MobileNav />
+      <IptvHomepage />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
     </>
   );
 }
