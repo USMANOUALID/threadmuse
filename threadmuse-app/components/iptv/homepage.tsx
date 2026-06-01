@@ -467,7 +467,7 @@ function ExperienceSection() {
             return (
               <Reveal key={feature.title} delay={index * 0.05}>
                 <GlassCard className="group h-full rounded-[1.75rem] p-6 transition duration-300 hover:-translate-y-1.5 hover:border-cyan-100/35 hover:bg-white/[0.075]">
-                  <span className="size-13 grid place-items-center rounded-2xl border border-cyan-100/20 bg-cyan-100/10 text-cyan-100 shadow-[0_0_35px_rgba(34,211,238,0.12)]">
+                  <span className="grid size-14 place-items-center rounded-2xl border border-cyan-100/20 bg-cyan-100/10 text-cyan-100 shadow-[0_0_35px_rgba(34,211,238,0.12)]">
                     <Icon className="size-6" />
                   </span>
                   <h3 className="mt-7 font-display text-xl font-semibold tracking-tight text-white">
