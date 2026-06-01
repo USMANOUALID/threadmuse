@@ -1,41 +1,67 @@
 import type { Metadata, Viewport } from "next";
-import { IptvHomepage, iptvBrand, iptvFaqs, iptvPlans } from "@/components/iptv/homepage";
+import { IptvHomepage } from "@/components/iptv/homepage";
+import { counters, faqs, iptvBrand, plans } from "@/components/iptv/data";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://astraview.tv";
+const pageTitle = "AstraView - Luxury IPTV for Live TV, Sports, Movies and 4K Streaming";
+const pageDescription =
+  "AstraView is a premium IPTV landing experience for 25,000+ channels, 120,000+ VOD, 99.9% uptime, 4K UHD streaming, flexible plans, and guided device setup.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "AstraView - Premium IPTV for Live TV, Sports, Movies and Series",
-  description:
-    "AstraView is a premium IPTV service concept with live channels, sports, movies, series, 4K-ready streams, device setup support, and flexible plans.",
+  title: {
+    default: pageTitle,
+    template: `%s | ${iptvBrand.name}`,
+  },
+  description: pageDescription,
   applicationName: iptvBrand.name,
   authors: [{ name: iptvBrand.name, url: siteUrl }],
   creator: iptvBrand.name,
+  publisher: iptvBrand.name,
+  category: "Entertainment",
+  classification: "Premium IPTV streaming service",
   keywords: [
     "premium IPTV",
+    "luxury IPTV",
     "live TV streaming",
     "sports IPTV",
     "movies and series IPTV",
     "4K IPTV",
+    "UHD IPTV",
     "Smart TV IPTV",
     "IPTV subscription",
+    "IPTV VOD",
     "streaming TV service",
+    "cable alternative",
   ],
   alternates: { canonical: "/" },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  referrer: "origin-when-cross-origin",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteUrl,
     siteName: iptvBrand.name,
-    title: "AstraView - Premium IPTV for every screen",
-    description:
-      "Stream live TV, sports, movies, and series with premium stability, device compatibility, and guided setup.",
+    title: pageTitle,
+    description: pageDescription,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "AstraView premium IPTV dashboard with live TV, sports, VOD, and 4K streaming",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AstraView - Premium IPTV for every screen",
-    description:
-      "Stream live TV, sports, movies, and series with premium stability, device compatibility, and guided setup.",
+    title: pageTitle,
+    description: pageDescription,
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
@@ -46,6 +72,12 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
+  },
+  other: {
+    "theme-color": "#020617",
+    "color-scheme": "dark",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-title": iptvBrand.name,
   },
 };
 
@@ -61,10 +93,21 @@ const productSchema = {
   "@context": "https://schema.org",
   "@type": "Product",
   name: iptvBrand.name,
-  description:
-    "Premium IPTV service concept with live channels, sports, movies, series, device support, and flexible plans.",
+  image: `${siteUrl}/opengraph-image`,
+  description: pageDescription,
   brand: { "@type": "Brand", name: iptvBrand.name },
-  offers: iptvPlans.map((plan) => ({
+  category: "IPTV streaming service",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.9",
+    reviewCount: "18400",
+  },
+  additionalProperty: counters.map((counter) => ({
+    "@type": "PropertyValue",
+    name: `${counter.value} ${counter.label}`,
+    value: counter.detail,
+  })),
+  offers: plans.map((plan) => ({
     "@type": "Offer",
     name: `${iptvBrand.name} ${plan.name}`,
     priceCurrency: "USD",
@@ -77,7 +120,7 @@ const productSchema = {
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: iptvFaqs.map((faq) => ({
+  mainEntity: faqs.map((faq) => ({
     "@type": "Question",
     name: faq.question,
     acceptedAnswer: {
@@ -85,6 +128,18 @@ const faqSchema = {
       text: faq.answer,
     },
   })),
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: iptvBrand.name,
+  url: siteUrl,
+  email: iptvBrand.email,
+  telephone: iptvBrand.phone,
+  slogan: iptvBrand.tagline,
+  logo: `${siteUrl}/opengraph-image`,
+  sameAs: [siteUrl],
 };
 
 export default function HomePage() {
@@ -98,6 +153,10 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
     </>
   );
