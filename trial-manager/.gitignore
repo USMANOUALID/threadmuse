@@ -1,0 +1,12 @@
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/storage/*.key
+/vendor
+.env
+.env.backup
+.env.production
+Homestead.json
+Homestead.yaml
+.phpunit.result.cache
