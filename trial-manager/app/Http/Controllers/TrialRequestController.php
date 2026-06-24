@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use App\Models\Setting;
 use App\Models\TrialRequest;
-use App\Models\WhatsappLog;
+use App\Services\IntegrationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use RuntimeException;
 
 class TrialRequestController extends Controller
 {
@@ -114,29 +115,28 @@ class TrialRequestController extends Controller
         return back()->with('success', 'Trial request marked as processed.');
     }
 
-    public function sendWhatsappNotification(TrialRequest $trialRequest): RedirectResponse
+    public function sendWhatsappNotification(TrialRequest $trialRequest, IntegrationService $integrations): RedirectResponse
     {
         $recipient = Setting::getValue('whatsapp_admin_number', $trialRequest->whatsapp);
         $message = $this->renderWhatsappTemplate($trialRequest);
 
-        WhatsappLog::create([
-            'trial_request_id' => $trialRequest->id,
-            'recipient' => $recipient,
-            'message' => $message,
-            'status' => 'logged',
-            'response' => ['note' => 'No WhatsApp provider configured; notification logged for manual sending.'],
-            'sent_at' => now(),
-        ]);
+        try {
+            $log = $integrations->sendWhatsappMessage($recipient, $message, $trialRequest, true);
+        } catch (RuntimeException $exception) {
+            return back()->withErrors(['whatsapp' => $exception->getMessage()]);
+        }
 
         Notification::create([
-            'type' => 'whatsapp.notification_logged',
+            'type' => $log->status === 'sent' ? 'whatsapp.notification_sent' : 'whatsapp.notification_failed',
             'channel' => 'whatsapp',
-            'title' => 'WhatsApp notification logged',
-            'body' => "Notification prepared for {$recipient}.",
-            'data' => ['trial_request_id' => $trialRequest->id],
+            'title' => $log->status === 'sent' ? 'WhatsApp notification sent' : 'WhatsApp notification failed',
+            'body' => "Notification for {$recipient} finished with status {$log->status}.",
+            'data' => ['trial_request_id' => $trialRequest->id, 'whatsapp_log_id' => $log->id],
         ]);
 
-        return back()->with('success', 'WhatsApp notification logged. Connect a provider to send automatically.');
+        return back()->with('success', $log->status === 'sent'
+            ? 'WhatsApp notification sent through Meta Graph API.'
+            : 'WhatsApp notification failed. Check WhatsApp logs and Integrations API status.');
     }
 
     private function validatedData(Request $request): array

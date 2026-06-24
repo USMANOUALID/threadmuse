@@ -51,7 +51,7 @@
                     </div>
 
                     <div>
-                        <label class="text-sm font-semibold text-slate-300" for="whatsapp_test_message_number">Test Message Number</label>
+                        <label class="text-sm font-semibold text-slate-300" for="whatsapp_test_message_number">Test Number</label>
                         <input class="input-dark mt-2" id="whatsapp_test_message_number" name="whatsapp_test_message_number" value="{{ old('whatsapp_test_message_number', $settings['whatsapp_test_message_number']) }}" placeholder="+212648883065">
                     </div>
 
@@ -104,7 +104,7 @@
                     </form>
                     <form method="POST" action="{{ route('settings.integrations.telegram.test') }}">
                         @csrf
-                        <button class="btn-muted w-full sm:w-auto">Test Telegram</button>
+                        <button class="btn-muted w-full sm:w-auto">Test Bot</button>
                     </form>
                 </div>
             </section>
