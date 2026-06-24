@@ -10,6 +10,16 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public const ROLE_ADMIN = 'admin';
+    public const ROLE_MANAGER = 'manager';
+    public const ROLE_SUPPORT = 'support';
+
+    public const ROLES = [
+        self::ROLE_ADMIN,
+        self::ROLE_MANAGER,
+        self::ROLE_SUPPORT,
+    ];
+
     protected $fillable = [
         'name',
         'email',
@@ -32,6 +42,11 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function canAccessAdminPanel(): bool
+    {
+        return in_array($this->role, self::ROLES, true);
     }
 }

@@ -28,11 +28,11 @@ class AuthController extends Controller
             ]);
         }
 
-        if (! $request->user()->isAdmin()) {
+        if (! $request->user()->canAccessAdminPanel()) {
             Auth::logout();
 
             throw ValidationException::withMessages([
-                'email' => __('This account does not have admin access.'),
+                'email' => __('This account does not have admin panel access.'),
             ]);
         }
 

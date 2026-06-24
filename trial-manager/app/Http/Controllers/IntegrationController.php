@@ -46,6 +46,7 @@ class IntegrationController extends Controller
             $data = $request->validate([
                 'telegram_bot_token' => ['nullable', 'string', 'max:255'],
                 'telegram_webhook_url' => ['nullable', 'url', 'max:255'],
+                'telegram_webhook_secret' => ['required', 'string', 'min:16', 'max:255'],
             ]);
 
             $this->integrations->saveTelegramSettings($data);

@@ -92,6 +92,12 @@
                         <input class="input-dark mt-2" id="telegram_webhook_url" name="telegram_webhook_url" value="{{ old('telegram_webhook_url', $settings['telegram_webhook_url']) }}">
                     </div>
 
+                    <div class="md:col-span-2">
+                        <label class="text-sm font-semibold text-slate-300" for="telegram_webhook_secret">Webhook Secret</label>
+                        <input class="input-dark mt-2" id="telegram_webhook_secret" name="telegram_webhook_secret" value="{{ old('telegram_webhook_secret', $settings['telegram_webhook_secret']) }}" placeholder="minimum-16-character-secret">
+                        <p class="mt-2 text-xs text-slate-500">Telegram sends this as X-Telegram-Bot-Api-Secret-Token and unauthorized webhook calls are rejected.</p>
+                    </div>
+
                     <div class="flex flex-col gap-3 md:col-span-2 sm:flex-row sm:justify-end">
                         <button class="btn-muted">Save Telegram Settings</button>
                     </div>

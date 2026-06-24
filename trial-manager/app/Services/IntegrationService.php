@@ -23,6 +23,7 @@ class IntegrationService
             'whatsapp_test_message_number' => Setting::getValue('whatsapp_test_message_number'),
             'telegram_bot_token' => Setting::getValue('telegram_bot_token'),
             'telegram_webhook_url' => Setting::getValue('telegram_webhook_url', route('telegram.webhook')),
+            'telegram_webhook_secret' => Setting::getValue('telegram_webhook_secret'),
             'notifications_whatsapp_enabled' => Setting::getValue('notifications_whatsapp_enabled', '1') === '1',
             'notifications_telegram_enabled' => Setting::getValue('notifications_telegram_enabled', '1') === '1',
             'notifications_email_enabled' => Setting::getValue('notifications_email_enabled', '0') === '1',
@@ -128,15 +129,17 @@ class IntegrationService
     {
         $botToken = Setting::getValue('telegram_bot_token');
         $webhookUrl = Setting::getValue('telegram_webhook_url', route('telegram.webhook'));
+        $webhookSecret = Setting::getValue('telegram_webhook_secret');
 
-        if (! $botToken || ! $webhookUrl) {
-            $this->recordIntegrationStatus('telegram', false, 'Telegram bot token and webhook URL are required.');
+        if (! $botToken || ! $webhookUrl || ! $webhookSecret) {
+            $this->recordIntegrationStatus('telegram', false, 'Telegram bot token, webhook URL, and webhook secret are required.');
 
-            throw new RuntimeException('Telegram bot token and webhook URL are required.');
+            throw new RuntimeException('Telegram bot token, webhook URL, and webhook secret are required.');
         }
 
         $response = Http::asForm()->post("https://api.telegram.org/bot{$botToken}/setWebhook", [
             'url' => $webhookUrl,
+            'secret_token' => $webhookSecret,
         ]);
 
         $connected = $response->successful() && (bool) data_get($response->json(), 'ok');

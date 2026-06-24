@@ -31,6 +31,7 @@
                 $nav = [
                     ['label' => 'Dashboard', 'route' => 'dashboard', 'match' => 'dashboard', 'icon' => '▦'],
                     ['label' => 'Trial Requests', 'route' => 'trial-requests.index', 'match' => 'trial-requests.*', 'icon' => '◉'],
+                    ['label' => 'Users', 'route' => 'users.index', 'match' => 'users.*', 'icon' => '◎'],
                     ['label' => 'Settings → Integrations', 'route' => 'settings.integrations', 'match' => 'settings.integrations*', 'icon' => '⚙'],
                     ['label' => 'Telegram Settings', 'route' => 'settings.telegram', 'match' => 'settings.telegram', 'icon' => '✦'],
                     ['label' => 'Telegram Logs', 'route' => 'telegram.logs', 'match' => 'telegram.logs', 'icon' => '☰'],

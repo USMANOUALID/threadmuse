@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class SettingsSeeder extends Seeder
 {
@@ -12,6 +13,7 @@ class SettingsSeeder extends Seeder
         Setting::putMany([
             'telegram_bot_token' => '',
             'telegram_webhook_url' => url('/api/telegram/webhook'),
+            'telegram_webhook_secret' => Setting::getValue('telegram_webhook_secret', Str::random(40)),
             'telegram_api_status' => 'disconnected',
         ], 'telegram');
 

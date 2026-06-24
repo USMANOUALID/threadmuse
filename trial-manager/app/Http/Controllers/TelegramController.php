@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
+use App\Models\Setting;
 use App\Models\TelegramLog;
 use App\Models\TrialRequest;
 use Illuminate\Http\JsonResponse;
@@ -22,6 +23,22 @@ class TelegramController extends Controller
 
     public function webhook(Request $request): JsonResponse
     {
+        $secret = Setting::getValue('telegram_webhook_secret');
+        $providedSecret = (string) $request->header('X-Telegram-Bot-Api-Secret-Token', '');
+
+        if (! $secret || ! hash_equals((string) $secret, $providedSecret)) {
+            TelegramLog::create([
+                'direction' => 'incoming',
+                'update_id' => Arr::get($request->all(), 'update_id'),
+                'payload' => ['ip' => $request->ip(), 'reason' => 'invalid webhook secret'],
+                'message' => 'Unauthorized Telegram webhook request',
+                'status' => 'unauthorized',
+                'error' => 'Invalid or missing X-Telegram-Bot-Api-Secret-Token header.',
+            ]);
+
+            return response()->json(['ok' => false, 'error' => 'Unauthorized.'], 403);
+        }
+
         $payload = $request->all();
         $log = TelegramLog::create([
             'direction' => 'incoming',
